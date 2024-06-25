@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="light-theme">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Mobile Toggle Button -->
+            <button class="btn btn-toggle-sidebar-mobile d-md-none" id="toggleSidebarMobile"><i
+                    class="fas fa-bars"></i></button> 
+            <!-- Navigation Menu
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <!-- <button class="btn btn-toggle-sidebar" id="toggleSidebar"><i class="fas fa-bars"></i></button> -->
+                <div class="sidebar-sticky">
+                    <h5 class="sidebar-heading text-center">STORE POS</h5>
+                    <ul class="nav flex-column" id="sidebar-menu">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="products.html"><i class="fas fa-box"></i> Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="inventory.html"><i class="fas fa-warehouse"></i> Inventory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pos.html"><i class="fas fa-cash-register"></i> POS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="report.html"><i class="fas fa-chart-line"></i> Reports</a>
+                        </li>
+                    </ul>
+                </div>
+            <!-- </nav> -->
+
+            <!-- Main Content Area -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Sales Report</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="exportPDF">Export PDF</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="exportCSV">Export CSV</button>
+                        </div>
+                        <input type="date" class="form-control form-control-sm" id="startDate">
+                        <input type="date" class="form-control form-control-sm ml-2" id="endDate">
+                        <button type="button" class="btn btn-sm btn-outline-secondary ml-2" id="filterReports">Filter</button>
+                    </div>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="themeToggle">Dark
+                                Theme</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                id="userProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Charts -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="salesBarChart"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="salesPieChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Top-Selling Products Table -->
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h2>Top-Selling Products</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Units Sold</th>
+                                        <th>Total Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="topSellingProducts">
+                                    <!-- Top-selling products rows will be dynamically inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales by Category Table -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h2>Sales by Category</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Units Sold</th>
+                                        <th>Total Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="salesByCategory">
+                                    <!-- Sales by category rows will be dynamically inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- User Performance Table -->
+                    <div class="col-md-6">
+                        <h2>User Performance</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Sales</th>
+                                        <th>Total Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userPerformance">
+                                    <!-- User performance rows will be dynamically inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

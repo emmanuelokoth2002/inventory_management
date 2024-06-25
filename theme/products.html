@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-theme">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Mobile Toggle Button -->
+            <button class="btn btn-toggle-sidebar-mobile d-md-none" id="toggleSidebarMobile"><i
+                    class="fas fa-bars"></i></button> 
+            <!-- Navigation Menu
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <!-- <button class="btn btn-toggle-sidebar" id="toggleSidebar"><i class="fas fa-bars"></i></button> -->
+                <div class="sidebar-sticky">
+                    <h5 class="sidebar-heading text-center">STORE POS</h5>
+                    <ul class="nav flex-column" id="sidebar-menu">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="products.html"><i class="fas fa-box"></i> Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="inventory.html"><i class="fas fa-warehouse"></i> Inventory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pos.html"><i class="fas fa-cash-register"></i> POS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="report.html"><i class="fas fa-chart-line"></i> Reports</a>
+                        </li>
+                    </ul>
+                </div>
+            <!-- </nav> -->
+
+            <!-- Main Content Area -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Product Management</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="addProduct">Add Product</button>
+                    </div>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="themeToggle">Dark
+                                Theme</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                id="userProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filter Options -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Search products..." id="searchProducts">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" id="filterCategory">
+                            <option value="">All Categories</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Footwear">Footwear</option>
+                            <option value="Accessories">Accessories</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" id="sortProducts">
+                            <option value="">Sort By</option>
+                            <option value="price">Price</option>
+                            <option value="stock">Stock Level</option>
+                            <option value="category">Category</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>SKU</th>
+                                <th>Price</th>
+                                <th>Stock Level</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productList">
+                            <!-- Product rows will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
