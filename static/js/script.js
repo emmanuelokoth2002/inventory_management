@@ -141,52 +141,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Sample product data for demonstration
-    const products = [
-        { 
-            id: 1, 
-            name: 'T-Shirt', 
-            sku: 'TS001', 
-            price: 20.00, 
-            stock: 50, 
-            category: 'Clothing', 
-            image: 'https://via.placeholder.com/50' 
-        },
-        { 
-            id: 2, 
-            name: 'Jeans', 
-            sku: 'JN002', 
-            price: 50.00, 
-            stock: 30, 
-            category: 'Clothing', 
-            image: 'https://via.placeholder.com/50' 
-        },
-    ];
-
-    // Function to render products in the table
-    function renderProducts(products) {
-        const productList = document.getElementById('productList');
-        productList.innerHTML = '';
-        products.forEach(product => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><img src="${product.image}" alt="${product.name}" class="img-thumbnail" width="50"></td>
-                <td>${product.name}</td>
-                <td>${product.sku}</td>
-                <td>$${product.price.toFixed(2)}</td>
-                <td>${product.stock}</td>
-                <td>${product.category}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning edit-product" data-id="${product.id}">Edit</button>
-                    <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">Delete</button>
-                </td>
-            `;
-            productList.appendChild(row);
-        });
-    }
-
-    // Initial render
-    renderProducts(products);
 
     // Event listeners for search, filter, and sort
     document.getElementById('searchProducts').addEventListener('input', function () {
