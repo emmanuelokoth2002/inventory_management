@@ -1,9 +1,101 @@
-<div class="container">
-    <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Product</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Update{% else %}Add{% endif %}</button>
-        <a href="{% url 'product' %}" class="btn btn-secondary">Cancel</a>
-    </form>
-</div>
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: pink;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-container .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-container .form-control {
+            border-radius: 5px;
+        }
+        
+        .form-container .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .form-container .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        .form-container .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .form-container .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        
+        .form-container .btn-link {
+            color: #6c757d;
+            text-decoration: none;
+        }
+        
+        .form-container .btn-link:hover {
+            color: #5a6268;
+            text-decoration: underline;
+        }
+    </style>
+    <div class="container form-container">
+        <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Product</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_name">Name:</label>
+                {{ form.name|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_description">Description:</label>
+                {{ form.description|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_category">Category:</label>
+                {{ form.category|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_price">Price:</label>
+                {{ form.price|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_cost">Cost:</label>
+                {{ form.cost|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_SKU">SKU:</label>
+                {{ form.SKU|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_barcode">Barcode:</label>
+                {{ form.barcode|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_stock">Stock:</label>
+                {{ form.stock|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                <label for="id_image">Image:</label>
+                {{ form.image|as_crispy_field }}
+            </div>
+            <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Update{% else %}Add{% endif %}</button>
+            <a href="{% url 'product' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

@@ -1,4 +1,46 @@
-    <div class="container">
+{% extends 'main.html' %}
+{% block content %}
+    <style>
+        .confirm-delete-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .confirm-delete-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .confirm-delete-container p {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .confirm-delete-container .btn {
+            width: 100px;
+            margin: 0 10px;
+        }
+
+        .confirm-delete-container .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .confirm-delete-container .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .confirm-delete-container .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+    </style>
+    <div class="container confirm-delete-container">
         <h2>Confirm Delete</h2>
         <p>Are you sure you want to delete "{{ product.name }}"?</p>
         <form method="post">
@@ -7,3 +49,4 @@
             <a href="{% url 'product' %}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
+{% endblock %}
