@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Inventory Management</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{% url 'addinventory' %}" class="btn btn-sm btn-outline-secondary">Add Inventory</a>
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="themeToggle">Dark
+                            Theme</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                            id="userProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Inventory ID</th>
+                            <th>Item</th>
+                            <th>Warehouse</th>
+                            <th>Quantity</th>
+                            <th>Reorder Level</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inventory in inventories %}
+                            <tr>
+                                <td>{{ inventory.inventory_id }}</td>
+                                <td>{{ inventory.item.name }}</td>
+                                <td>{{ inventory.warehouse.name }}</td>
+                                <td>{{ inventory.quantity }}</td>
+                                <td>{{ inventory.reorder_level }}</td>
+                                <td>
+                                    <a href="{% url 'editinventory' inventory.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    <a href="{% url 'deleteinventory' inventory.pk %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this inventory?');">Delete</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6">No inventory found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
