@@ -1,0 +1,195 @@
+{% extends 'main.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Content Area -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Point of Sale</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="themeToggle">Dark Theme</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                id="userProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Product Catalog -->
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search products..." id="searchProducts">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-catalog" id="productCatalog">
+                            <!-- Product items will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Cart Summary -->
+                    <div class="col-md-6">
+                        <h4>Cart Summary</h4>
+                        <div id="cartSummary">
+                            <!-- Cart items will be dynamically inserted here -->
+                        </div>
+                        <div class="mt-4">
+                            <h5>Total: $<span id="totalPrice">0.00</span></h5>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5>Customer Information (Optional)</h5>
+                        <input type="text" class="form-control mb-2" placeholder="Customer Name" id="customerName">
+                        <input type="text" class="form-control mb-2" placeholder="Customer Contact" id="customerContact">
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Payment Options</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cashPayment" value="cash" checked>
+                            <label class="form-check-label" for="cashPayment">
+                                Cash
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cardPayment" value="card">
+                            <label class="form-check-label" for="cardPayment">
+                                Card
+                            </label>
+                        </div>
+                        <button class="btn btn-success btn-block mt-3" id="completeSale">Complete Sale</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let cart = [];
+            let totalAmount = 0;
+
+            function loadProducts() {
+                fetch('{% url "poshome" %}')
+                    .then(response => response.json())
+                    .then(data => {
+                        const productCatalog = document.getElementById('productCatalog');
+                        productCatalog.innerHTML = '';
+                        data.inventory_items.forEach(item => {
+                            const productCard = document.createElement('div');
+                            productCard.className = 'card mb-3';
+                            productCard.innerHTML = `
+                                <img src="${item.item__image}" class="card-img-top" alt="${item.item__name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${item.item__name}</h5>
+                                    <p class="card-text">$${item.item__price}</p>
+                                    <p class="card-text">In Stock: <span class="stock-quantity" data-id="${item.id}">${item.quantity}</span></p>
+                                    <button class="btn btn-primary add-to-cart" data-id="${item.id}" data-quantity="${item.quantity}" data-name="${item.item__name}" data-price="${item.item__price}">Add to Cart</button>
+                                </div>
+                            `;
+                            productCatalog.appendChild(productCard);
+                        });
+
+                        document.querySelectorAll('.add-to-cart').forEach(button => {
+                            button.addEventListener('click', function () {
+                                const itemId = this.getAttribute('data-id');
+                                const itemName = this.getAttribute('data-name');
+                                const itemPrice = parseFloat(this.getAttribute('data-price'));
+                                const itemQuantity = parseInt(this.getAttribute('data-quantity'));
+
+                                const cartItem = cart.find(item => item.id === itemId);
+                                if (cartItem) {
+                                    if (cartItem.quantity < itemQuantity) {
+                                        cartItem.quantity += 1;
+                                        document.querySelector(`.stock-quantity[data-id="${itemId}"]`).textContent -= 1;
+                                    } else {
+                                        alert('Insufficient stock');
+                                    }
+                                } else {
+                                    if (itemQuantity > 0) {
+                                        cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1 });
+                                        document.querySelector(`.stock-quantity[data-id="${itemId}"]`).textContent -= 1;
+                                    } else {
+                                        alert('Out of stock');
+                                    }
+                                }
+
+                                updateCart();
+                            });
+                        });
+                    });
+            }
+
+            function updateCart() {
+                const cartSummary = document.getElementById('cartSummary');
+                cartSummary.innerHTML = '';
+
+                totalAmount = 0;
+                cart.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    listItem.textContent = `${item.name} x ${item.quantity}`;
+                    const span = document.createElement('span');
+                    span.textContent = `$${(item.price * item.quantity).toFixed(2)}`;
+                    listItem.appendChild(span);
+
+                    cartSummary.appendChild(listItem);
+
+                    totalAmount += item.price * item.quantity;
+                });
+
+                document.getElementById('totalPrice').textContent = totalAmount.toFixed(2);
+            }
+
+            function completeSale() {
+                const customerName = document.getElementById('customerName').value;
+                const customerContact = document.getElementById('customerContact').value;
+                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+                fetch('{% url "completesale" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        customer_name: customerName,
+                        customer_contact: customerContact,
+                        payment_method: paymentMethod,
+                        items: cart
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Sale completed successfully');
+                        cart = [];
+                        updateCart();
+                        loadProducts();
+                    } else {
+                        alert('Error completing sale');
+                    }
+                });
+            }
+
+            document.getElementById('completeSale').addEventListener('click', completeSale);
+
+            loadProducts();
+        });
+    </script>
+{% endblock %}

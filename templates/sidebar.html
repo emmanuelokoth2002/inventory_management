@@ -5,16 +5,16 @@
             <a class="nav-link" href="http://127.0.0.1:8000/"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="http://127.0.0.1:8000/products"><i class="fas fa-box"></i> Products</a>
+            <a class="nav-link" href="{% url "product" %}"><i class="fas fa-box"></i> Products</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="http://127.0.0.1:8000/inventory"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a class="nav-link" href="{% url "inventory" %}"><i class="fas fa-warehouse"></i> Inventory</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="pos.html"><i class="fas fa-cash-register"></i> POS</a>
+            <a class="nav-link" href="{% url "pospage" %}"><i class="fas fa-cash-register"></i> POS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="report.html"><i class="fas fa-chart-line"></i> Reports</a>
+            <a class="nav-link" href="{% url "salesreport" %}"><i class="fas fa-chart-line"></i> Reports</a>
         </li>
     </ul>
 </div>

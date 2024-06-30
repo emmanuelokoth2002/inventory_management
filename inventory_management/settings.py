@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'inventory.apps.InventoryConfig',
     'users.apps.UsersConfig',
+    'pos.apps.PosConfig',
     'crispy_forms',
     'crispy_bootstrap4',
 ]
@@ -146,6 +147,13 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.your-email-provider.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'emmanuelokoth285@gmail.com'
+EMAIL_HOST_PASSWORD = '39931838'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

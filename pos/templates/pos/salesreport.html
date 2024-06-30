@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    #report{
+        margin-left:200px;
+    }
+    .report-section {
+        margin-bottom: 20px;
+    }
+    
+    .report-section h3 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    
+    .report-section p {
+        font-size: 1.2em;
+    }
+</style>
+    <div class="container" id="report">
+        <h2>Sales Report</h2>
+        
+        <form method="get" class="form-inline mb-4">
+            <div class="form-group mr-2">
+                <label for="start_date" class="sr-only">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ start_date }}">
+            </div>
+            <div class="form-group mr-2">
+                <label for="end_date" class="sr-only">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        <div class="report-section">
+            <h3>Total Sales</h3>
+            <p>${{ total_sales }}</p>
+        </div>
+        <div class="report-section">
+            <h3>Total Items Sold</h3>
+            <p>{{ total_items_sold }}</p>
+        </div>
+        <div class="report-section">
+            <h3>Best Selling Items</h3>
+            <ul>
+                {% for item in best_selling_items %}
+                    <li>{{ item.item__name }}: {{ item.total_quantity }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <a href="{% url 'salesreportpdf' %}?start_date={{ start_date }}&end_date={{ end_date }}" class="btn btn-secondary">Download as PDF</a>
+        <a href="{% url 'emailsalesreport' %}?start_date={{ start_date }}&end_date={{ end_date }}" class="btn btn-secondary">Email Report</a>
+    </div>
+{% endblock %}
