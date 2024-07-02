@@ -4,7 +4,7 @@
 <style>
     .form-container {
         max-width: 500px;
-        margin: 0 auto;
+        margin-top: 50px;
         background-color: pink;
         padding: 20px;
         border-radius: 10px;
@@ -53,8 +53,23 @@
         color: #5a6268;
         text-decoration: underline;
     }
+    
+    .back-arrow {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+    
+    .back-arrow i {
+        font-size: 24px;
+        margin-right: 10px;
+    }
 </style>
 <div class="container form-container">
+    <div class="back-arrow" onclick="window.location.href='{% url 'inventory' %}'">
+        <i class="fas fa-arrow-left"></i>
+    </div>
     <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Inventory</h2>
     <form method="post">
         {% csrf_token %}
@@ -63,4 +78,5 @@
         <a href="{% url 'inventory' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 {% endblock %}

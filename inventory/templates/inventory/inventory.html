@@ -10,14 +10,12 @@
                 </div>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="shareButton">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="exportButton">Export</button>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" id="themeToggle">Dark
-                            Theme</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                            id="userProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="themeToggle">Dark Theme</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" id="userProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user-circle"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -29,7 +27,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="inventoryTable">
                     <thead>
                         <tr>
                             <th>Inventory ID</th>
@@ -70,7 +68,7 @@
     });
 
     document.getElementById('exportButton').addEventListener('click', function() {
-        let table = document.getElementById('productList');
+        let table = document.getElementById('inventoryTable');
         let rows = table.querySelectorAll('tr');
         let csvContent = "data:text/csv;charset=utf-8,";
         rows.forEach(function(row) {
@@ -85,7 +83,7 @@
         let encodedUri = encodeURI(csvContent);
         let link = document.createElement('a');
         link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'products.csv');
+        link.setAttribute('download', 'inventory.csv');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -94,7 +92,7 @@
     document.getElementById('shareButton').addEventListener('click', function() {
         if (navigator.share) {
             navigator.share({
-                title: 'Product Management',
+                title: 'Inventory Management',
                 url: window.location.href
             }).then(() => {
                 console.log('Thanks for sharing!');

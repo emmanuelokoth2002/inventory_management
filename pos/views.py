@@ -1,13 +1,11 @@
-from email.message import EmailMessage
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from inventory.models import Inventory
 from products.models import Item
 from .models import Sale, SaleItem
-from django.db.models import Sum, Count
+from django.db.models import Sum
 from django.utils.dateparse import parse_date
-import xhtml2pdf.pisa as pisa
 from django.template.loader import get_template
 from django.conf import settings
 from io import BytesIO
@@ -40,7 +38,7 @@ def completesale(request):
 
         for item in items:
             product = Item.objects.get(pk=item['id'])
-            sale_item = SaleItem.objects.create(
+            SaleItem.objects.create(
                 sale=sale,
                 item=product,
                 quantity=item['quantity'],
@@ -63,7 +61,12 @@ def salesreport(request):
 
     sales = Sale.objects.all()
     if start_date and end_date:
-        sales = sales.filter(created_at__date__gte=parse_date(start_date), created_at__date__lte=parse_date(end_date))
+        try:
+            start_date = parse_date(start_date)
+            end_date = parse_date(end_date)
+            sales = sales.filter(created_at__date__gte=start_date, created_at__date__lte=end_date)
+        except ValueError:
+            pass  # Handle invalid date formats if necessary
 
     total_sales = sales.aggregate(total_amount=Sum('total_amount'))['total_amount'] or 0
     total_items_sold = SaleItem.objects.filter(sale__in=sales).aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
@@ -82,11 +85,11 @@ def salesreport(request):
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
     html = template.render(context_dict)
-    result = HttpResponse(content_type='application/pdf')
-    pisa_status = pisa.CreatePDF(html, dest=result)
+    result = BytesIO()
+    pisa_status = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
     if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return result
+        return None
+    return result.getvalue()
 
 def salesreportpdf(request):
     start_date = request.GET.get('start_date')
@@ -94,7 +97,12 @@ def salesreportpdf(request):
 
     sales = Sale.objects.all()
     if start_date and end_date:
-        sales = sales.filter(created_at__date__gte=parse_date(start_date), created_at__date__lte=parse_date(end_date))
+        try:
+            start_date = parse_date(start_date)
+            end_date = parse_date(end_date)
+            sales = sales.filter(created_at__date__gte=start_date, created_at__date__lte=end_date)
+        except ValueError:
+            pass  # Handle invalid date formats if necessary
 
     total_sales = sales.aggregate(total_amount=Sum('total_amount'))['total_amount'] or 0
     total_items_sold = SaleItem.objects.filter(sale__in=sales).aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
@@ -108,7 +116,12 @@ def salesreportpdf(request):
         'end_date': end_date
     }
 
-    return render_to_pdf('pos/salesreportpdf.html', context)
+    pdf = render_to_pdf('pos/salesreportpdf.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="sales_report.pdf"'
+        return response
+    return HttpResponse('We had some errors <pre>' + html + '</pre>')
 
 def emailsalesreport(request):
     start_date = request.GET.get('start_date')
@@ -116,7 +129,12 @@ def emailsalesreport(request):
 
     sales = Sale.objects.all()
     if start_date and end_date:
-        sales = sales.filter(created_at__date__gte=parse_date(start_date), created_at__date__lte=parse_date(end_date))
+        try:
+            start_date = parse_date(start_date)
+            end_date = parse_date(end_date)
+            sales = sales.filter(created_at__date__gte=start_date, created_at__date__lte=end_date)
+        except ValueError:
+            pass
 
     total_sales = sales.aggregate(total_amount=Sum('total_amount'))['total_amount'] or 0
     total_items_sold = SaleItem.objects.filter(sale__in=sales).aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
