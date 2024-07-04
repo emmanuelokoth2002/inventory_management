@@ -1,10 +1,10 @@
 {% extends 'main.html' %}
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid"  id="mainpage">
         <div class="row">
             <!-- Main Content Area -->
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="navbar">
                     <h1 class="h2">Product Management</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <a href="{% url 'addproduct' %}" class="btn btn-sm btn-outline-secondary">Add Product</a>
@@ -44,7 +44,6 @@
                         <select class="form-control" name="sort" id="sortProducts">
                             <option value="">Sort By</option>
                             <option value="price" {% if request.GET.sort == "price" %}selected{% endif %}>Price</option>
-                            <option value="stock" {% if request.GET.sort == "stock" %}selected{% endif %}>Stock Level</option>
                             <option value="category" {% if request.GET.sort == "category" %}selected{% endif %}>Category</option>
                         </select>
                     </div>
@@ -59,7 +58,6 @@
                                 <th>Name</th>
                                 <th>SKU</th>
                                 <th>Price</th>
-                                <th>Stock Level</th>
                                 <th>Category</th>
                                 <th>Actions</th>
                             </tr>
@@ -77,7 +75,6 @@
                                     <td>{{ product.name }}</td>
                                     <td>{{ product.SKU }}</td>
                                     <td>{{ product.price }}</td>
-                                    <td>{{ product.stock }}</td>
                                     <td>{{ product.category.name }}</td>
                                     <td>
                                         <a href="{% url 'editproduct' product.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
