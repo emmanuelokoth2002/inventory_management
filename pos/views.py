@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 from inventory.models import Inventory
 from products.models import Item
 from .models import Sale, SaleItem
@@ -21,36 +22,49 @@ def poshome(request):
     return JsonResponse({'inventory_items': items})
 
 @csrf_exempt
+@require_http_methods(["POST"])
 def completesale(request):
-    if request.method == 'POST':
+    try:
         data = json.loads(request.body)
-        customer_name = data.get('customer_name')
-        customer_contact = data.get('customer_contact')
-        payment_method = data.get('payment_method')
-        items = data.get('items')
+        cart_items = data.get('cartItems', [])
+        payment_method = data.get('paymentMethod')
+        total_amount = data.get('totalAmount')
+
+        if not payment_method or not total_amount:
+            return JsonResponse({'message': 'Payment method and total amount are required'}, status=400)
 
         sale = Sale.objects.create(
-            customer_name=customer_name,
-            customer_contact=customer_contact,
+            total_amount=total_amount,
             payment_method=payment_method,
-            total_amount=sum(item['price'] * item['quantity'] for item in items)
+            customer_name=data.get('customerName', ''),
+            customer_contact=data.get('customerContact', '')
         )
 
-        for item in items:
-            product = Item.objects.get(pk=item['id'])
-            SaleItem.objects.create(
-                sale=sale,
-                item=product,
-                quantity=item['quantity'],
-                price=item['price']
-            )
-            inventory_item = Inventory.objects.get(item=product)
-            inventory_item.quantity -= item['quantity']
-            inventory_item.save()
+        for item in cart_items:
+            try:
+                product = get_object_or_404(Item, pk=item['id'])
+                SaleItem.objects.create(
+                    sale=sale,
+                    item=product,
+                    quantity=item['quantity'],
+                    price=item['price']
+                )
+                inventory_item = get_object_or_404(Inventory, item=product)
+                inventory_item.quantity -= item['quantity']
+                inventory_item.save()
+            except Item.DoesNotExist:
+                return JsonResponse({'message': f'Item with id {item["id"]} does not exist'}, status=400)
+            except Inventory.DoesNotExist:
+                return JsonResponse({'message': f'Inventory entry for item with id {item["id"]} does not exist'}, status=400)
 
-        return JsonResponse({'success': True})
+        return JsonResponse({'message': 'Sale completed successfully'})
+    
+    except json.JSONDecodeError:
+        return JsonResponse({'message': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=400)
 
-    return JsonResponse({'success': False}, status=400)
+    return JsonResponse({'message': 'Invalid request'}, status=400)
 
 def pospage(request):
     return render(request, 'pos/pos.html')

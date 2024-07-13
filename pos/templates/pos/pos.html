@@ -83,7 +83,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             let cart = [];
             let totalAmount = 0;
-
+        
             function loadProducts() {
                 fetch('{% url "poshome" %}')
                     .then(response => response.json())
@@ -94,7 +94,7 @@
                             const productCard = document.createElement('div');
                             productCard.className = 'card mb-3';
                             productCard.innerHTML = `
-                                <img src="${item.item__image}" class="card-img-top" alt="${item.item__name}">
+                                <img src="/media/${item.item__image}" class="card-img-top" alt="${item.item__name}">
                                 <div class="card-body">
                                     <h5 class="card-title">${item.item__name}</h5>
                                     <p class="card-text">$${item.item__price}</p>
@@ -104,14 +104,14 @@
                             `;
                             productCatalog.appendChild(productCard);
                         });
-
+        
                         document.querySelectorAll('.add-to-cart').forEach(button => {
                             button.addEventListener('click', function () {
                                 const itemId = this.getAttribute('data-id');
                                 const itemName = this.getAttribute('data-name');
                                 const itemPrice = parseFloat(this.getAttribute('data-price'));
                                 const itemQuantity = parseInt(this.getAttribute('data-quantity'));
-
+        
                                 const cartItem = cart.find(item => item.id === itemId);
                                 if (cartItem) {
                                     if (cartItem.quantity < itemQuantity) {
@@ -128,17 +128,17 @@
                                         alert('Out of stock');
                                     }
                                 }
-
+        
                                 updateCart();
                             });
                         });
                     });
             }
-
+        
             function updateCart() {
                 const cartSummary = document.getElementById('cartSummary');
                 cartSummary.innerHTML = '';
-
+        
                 totalAmount = 0;
                 cart.forEach(item => {
                     const listItem = document.createElement('li');
@@ -147,20 +147,20 @@
                     const span = document.createElement('span');
                     span.textContent = `$${(item.price * item.quantity).toFixed(2)}`;
                     listItem.appendChild(span);
-
+        
                     cartSummary.appendChild(listItem);
-
+        
                     totalAmount += item.price * item.quantity;
                 });
-
+        
                 document.getElementById('totalPrice').textContent = totalAmount.toFixed(2);
             }
-
+        
             function completeSale() {
                 const customerName = document.getElementById('customerName').value;
                 const customerContact = document.getElementById('customerContact').value;
                 const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-
+        
                 fetch('{% url "completesale" %}', {
                     method: 'POST',
                     headers: {
@@ -168,32 +168,33 @@
                         'X-CSRFToken': '{{ csrf_token }}'
                     },
                     body: JSON.stringify({
-                        customer_name: customerName,
-                        customer_contact: customerContact,
-                        payment_method: paymentMethod,
-                        items: cart
+                        customerName: customerName,
+                        customerContact: customerContact,
+                        paymentMethod: paymentMethod,
+                        totalAmount: totalAmount.toFixed(2),
+                        cartItems: cart
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.message === 'Sale completed successfully') {
                         alert('Sale completed successfully');
                         cart = [];
                         updateCart();
                         loadProducts();
                     } else {
-                        alert('Error completing sale');
+                        alert('Error completing sale: ' + data.message);
                     }
                 });
             }
-
+        
             document.getElementById('completeSale').addEventListener('click', completeSale);
-
+        
             document.getElementById('themeToggle').addEventListener('click', function() {
                 document.body.classList.toggle('dark-theme');
                 this.textContent = document.body.classList.contains('dark-theme') ? 'Light Theme' : 'Dark Theme';
             });
-
+        
             document.getElementById('exportButton').addEventListener('click', function() {
                 let csvContent = "data:text/csv;charset=utf-8,";
                 cart.forEach(item => {
@@ -207,12 +208,12 @@
                 link.click();
                 document.body.removeChild(link);
             });
-
+        
             document.getElementById('shareButton').addEventListener('click', function() {
                 if (navigator.share) {
                     navigator.share({
                         title: 'Point of Sale',
-                        text: 'Check out this point of sale application',
+                        text: 'Check out this point of sale',
                         url: window.location.href
                     }).then(() => {
                         console.log('Thanks for sharing!');
@@ -221,8 +222,8 @@
                     alert('Web Share API not supported in this browser.');
                 }
             });
-
+        
             loadProducts();
-        });
+        });        
     </script>
 {% endblock %}
