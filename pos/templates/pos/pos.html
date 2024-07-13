@@ -94,9 +94,9 @@
                             const productCard = document.createElement('div');
                             productCard.className = 'card mb-3';
                             productCard.innerHTML = `
-                                <img src="/media/${item.item__image}" class="card-img-top" alt="${item.item__name}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${item.item__name}</h5>
+                            <img src="/media/${item.item__image}" class="card-img-top" alt="${item.item__name}" style="width: 100px; height: 100px;">
+                            <div class="card-body">
+                                    <h3 class="card-title">${item.item__name}</h3>
                                     <p class="card-text">$${item.item__price}</p>
                                     <p class="card-text">In Stock: <span class="stock-quantity" data-id="${item.id}">${item.quantity}</span></p>
                                     <button class="btn btn-primary add-to-cart" data-id="${item.id}" data-quantity="${item.quantity}" data-name="${item.item__name}" data-price="${item.item__price}">Add to Cart</button>
