@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Inventory
 from .forms import InventoryForm
 
@@ -9,6 +9,7 @@ def inventory(request):
     return render(request, 'inventory/inventory.html', {'inventories': inventories})
 
 @login_required
+@permission_required('your_app.add_inventory', raise_exception=True)
 def addinventory(request):
     if request.method == 'POST':
         form = InventoryForm(request.POST)
@@ -20,6 +21,7 @@ def addinventory(request):
     return render(request, 'inventory/inventoryform.html', {'form': form})
 
 @login_required
+@permission_required('your_app.change_inventory', raise_exception=True)
 def editinventory(request, pk):
     inventory = get_object_or_404(Inventory, pk=pk)
     if request.method == 'POST':
@@ -32,6 +34,7 @@ def editinventory(request, pk):
     return render(request, 'inventory/inventoryform.html', {'form': form})
 
 @login_required
+@permission_required('your_app.delete_inventory', raise_exception=True)
 def deleteinventory(request, pk):
     inventory = get_object_or_404(Inventory, pk=pk)
     if request.method == 'POST':

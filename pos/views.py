@@ -1,10 +1,10 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from inventory.models import Inventory
 from products.models import Item
 from .models import Sale, SaleItem
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum
 from django.utils.dateparse import parse_date
 from django.template.loader import get_template
@@ -24,6 +24,7 @@ def poshome(request):
 
 @login_required
 @csrf_exempt
+@permission_required('inventory.add_inventory', raise_exception=True)
 def completesale(request):
     if request.method == 'POST':
         try:
@@ -54,10 +55,12 @@ def completesale(request):
     return JsonResponse({'message': 'Invalid request'}, status=400)
 
 @login_required
+@permission_required('inventory.view_inventory', raise_exception=True)
 def pospage(request):
     return render(request, 'pos/pos.html')
 
 @login_required
+@permission_required('sales.view_sale', raise_exception=True)
 def salesreport(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -96,6 +99,7 @@ def render_to_pdf(template_src, context_dict={}):
     return result.getvalue()
 
 @login_required
+@permission_required('sales.view_sale', raise_exception=True)
 def salesreportpdf(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -129,6 +133,7 @@ def salesreportpdf(request):
     return HttpResponse('We had some errors <pre>' + html + '</pre>')
 
 @login_required
+@permission_required('sales.view_sale', raise_exception=True)
 def emailsalesreport(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
