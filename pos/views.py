@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from inventory.models import Inventory
 from products.models import Item
 from .models import Sale, SaleItem
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.utils.dateparse import parse_date
 from django.template.loader import get_template
@@ -13,6 +14,7 @@ import xhtml2pdf.pisa as pisa
 from django.core.mail import EmailMessage
 import json
 
+@login_required
 def poshome(request):
     inventory_items = Inventory.objects.select_related('item').values(
         'id', 'item__name', 'item__price', 'quantity', 'item__image'
@@ -20,6 +22,7 @@ def poshome(request):
     items = list(inventory_items)
     return JsonResponse({'inventory_items': items})
 
+@login_required
 @csrf_exempt
 def completesale(request):
     if request.method == 'POST':
@@ -50,9 +53,11 @@ def completesale(request):
             return JsonResponse({'message': str(e)}, status=400)
     return JsonResponse({'message': 'Invalid request'}, status=400)
 
+@login_required
 def pospage(request):
     return render(request, 'pos/pos.html')
 
+@login_required
 def salesreport(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -80,6 +85,7 @@ def salesreport(request):
 
     return render(request, 'pos/salesreport.html', context)
 
+@login_required
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
     html = template.render(context_dict)
@@ -89,6 +95,7 @@ def render_to_pdf(template_src, context_dict={}):
         return None
     return result.getvalue()
 
+@login_required
 def salesreportpdf(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -121,6 +128,7 @@ def salesreportpdf(request):
         return response
     return HttpResponse('We had some errors <pre>' + html + '</pre>')
 
+@login_required
 def emailsalesreport(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')

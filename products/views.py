@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from .models import Item,Category
+from .models import Item, Category
 from .forms import ItemForm
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, permission_required
 
+@login_required
 def product(request):
     query = request.GET.get('q')
     category_filter = request.GET.get('category')
@@ -27,6 +29,8 @@ def product(request):
 
     return render(request, 'products/products.html', {'products': products, 'categories': categories})
 
+@login_required
+@permission_required('your_app.add_item', raise_exception=True)
 def addproduct(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
@@ -37,6 +41,8 @@ def addproduct(request):
         form = ItemForm()
     return render(request, 'products/productform.html', {'form': form})
 
+@login_required
+@permission_required('your_app.change_item', raise_exception=True)
 def editproduct(request, pk):
     product = get_object_or_404(Item, pk=pk)
     if request.method == 'POST':
@@ -48,6 +54,8 @@ def editproduct(request, pk):
         form = ItemForm(instance=product)
     return render(request, 'products/productform.html', {'form': form})
 
+@login_required
+@permission_required('your_app.delete_item', raise_exception=True)
 def deleteproduct(request, pk):
     product = get_object_or_404(Item, pk=pk)
     if request.method == 'POST':
