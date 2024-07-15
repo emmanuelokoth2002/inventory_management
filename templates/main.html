@@ -12,16 +12,21 @@
 </head>
 
 <body class="light-theme">
+    <button id="sidebarToggle" class="btn btn-primary"><i class="fas fa-bars"></i></button>
     {% include 'sidebar.html' %}
 
-    {% block content%}
-    
-
-    {% endblock %}
+    <div id="mainpage">
+        {% block content %}
+        {% endblock %}
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar-sticky').classList.toggle('active');
+        });
+    </script>
     {% comment %} <script src="{% static 'js/script.js' %}"></script> {% endcomment %}
 </body>
-
 </html>

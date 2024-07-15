@@ -1,5 +1,5 @@
 body.light-theme {
-    background-color: #f8f9fa;
+    background-color: whitesmoke;
     color: #212529;
 }
 
@@ -15,7 +15,7 @@ body.dark-theme {
     left: 0;
     height: 100%;
     z-index: 100;
-    background-color: blue;
+    background-color: blueviolet;
     color: black;
     transition: width 300ms;
 }
@@ -38,11 +38,12 @@ body.dark-theme {
 }
 
 body.dark-theme .sidebar-sticky {
-    background-color: black;
+    background-color: #495057;
     color: white;
 }
 
 body.dark-theme .nav-link {
+    background-color: #495057;
     color: white;
 }
 
@@ -54,12 +55,27 @@ body.dark-theme .card {
     background-color: #495057;
     color: #f8f9fa;
 }
-#mainpage{
-    margin-left: 10px;
+
+body.dark-theme #mainpage{
+    background-color: #495057;
+    color:#ffffff;
 }
-#navbar{
-    background-color: #7b3f00;
-    color:white;
+
+body.dark-theme #navbar{
+    background-color: #495057;
+    color:#ffffff;
+}
+
+#mainpage {
+    margin-left: 10px;
+    width:auto;
+    transition: margin-left 300ms;
+    background-color: whitesmoke;
+}
+
+#navbar {
+    background-color: whitesmoke;
+    color: black;
 }
 
 .card {
@@ -134,9 +150,11 @@ body.dark-theme .card {
 body.dark-theme .table-responsive {
     color: white;
 }
+
 #report {
     margin-left: 250px;
 }
+
 .report-section {
     margin-bottom: 20px;
 }
@@ -147,22 +165,13 @@ body.dark-theme .table-responsive {
 }
 
 table {
-    width: 100%;
+    width: auto;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
 
 table, th, td {
     border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
 }
 
 @media (max-width: 767.98px) {
@@ -176,7 +185,7 @@ th {
         transition: height 300ms;
     }
     .sidebar-heading {
-        text-align: center;
+        text-align: right;
     }
     #mainpage {
         margin-left: 0;
@@ -202,7 +211,7 @@ th {
     }
     #toggleSidebar {
         display: block;
-        background: yellow;
+        background: rgb(11, 0, 0);
         position: fixed;
         top: 10px;
         left: 10px;
@@ -211,8 +220,57 @@ th {
     .btn-toggle-sidebar-mobile {
         display: block;
         position: fixed;
-        top: 10px;
-        left: 10px;
+        top: 0;
+        left: 0;
         z-index: 2001;
+    }
+    table {
+        width: auto;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+}
+
+#sidebarToggle {
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+    #sidebarToggle {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0px;
+        z-index: 2001;
+        background-color: black;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+    .sidebar-sticky {
+        display: none;
+    }
+    .sidebar-sticky.active {
+        display: block;
+        width: 150px;
+        height: 100%;
+        position: fixed;
+        top:0;
+        left: 0;
+        z-index: 2000;
+        background-color: blueviolet;
+        color: black;
+        transition: height 300ms;
+    }
+    .sidebar-heading {
+        text-align: right;
+    }
+    #mainpage {
+        margin-left: 0;
+    }
+    table {
+        width: auto;
+        border-collapse: collapse;
+        margin-bottom: 20px;
     }
 }
