@@ -153,6 +153,8 @@ body.dark-theme .table-responsive {
 
 #report {
     margin-left: 250px;
+    position: fixed;
+    width: 80%;
 }
 
 .report-section {
@@ -233,6 +235,10 @@ table, th, td {
         border-collapse: collapse;
         margin-bottom: 20px;
     }
+    #report {
+        margin-left: 10px;
+        width: 80%;
+    }
 }
 
 @media (max-width: 767.98px) {
@@ -272,5 +278,9 @@ table, th, td {
         width: auto;
         border-collapse: collapse;
         margin-bottom: 20px;
+    }
+    #report {
+        margin-left: 10px;
+        width: 80%;
     }
 }

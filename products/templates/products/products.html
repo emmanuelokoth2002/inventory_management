@@ -1,9 +1,9 @@
 {% extends 'main.html' %}
 {% block content %}
-    <div class="container-fluid"  id="mainpage">
+    <div class="container-fluid" id="mainpage">
         <div class="row">
             <!-- Main Content Area -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <main role="main" class="col-12 col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="navbar">
                     <h1 class="h2">Product Management</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
@@ -29,10 +29,10 @@
 
                 <!-- Search and Filter Options -->
                 <form method="GET" action="{% url 'product' %}" class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-6 mb-2">
                         <input type="text" class="form-control" placeholder="Search products..." name="q" value="{{ request.GET.q }}">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-12 col-md-3 mb-2">
                         <select class="form-control" name="category" id="filterCategory">
                             <option value="">All Categories</option>
                             {% for category in categories %}
@@ -40,7 +40,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-12 col-md-3 mb-2">
                         <select class="form-control" name="sort" id="sortProducts">
                             <option value="">Sort By</option>
                             <option value="price" {% if request.GET.sort == "price" %}selected{% endif %}>Price</option>
@@ -83,7 +83,7 @@
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="7">No products found.</td>
+                                    <td colspan="6">No products found.</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

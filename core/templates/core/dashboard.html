@@ -2,7 +2,7 @@
 {% block content %}
     <div class="container-fluid" id="mainpage">
         <div class="row">
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <main role="main" class="col-12 col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="navbar">
                     <h1 class="h2">Dashboard</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
@@ -21,8 +21,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Your existing dashboard content here -->
 
                 <div class="row">
                     <div class="col-md-4">
@@ -84,7 +82,7 @@
                                     <td>${{ sale.total_amount }}</td>
                                 </tr>
                             {% endfor %}
-                        </tbody>                                             
+                        </tbody>
                     </table>
                 </div>
 
@@ -107,12 +105,12 @@
                         <tbody>
                             {% for item in low_stock_items %}
                                 <tr>
-                                    <td>{{ item.name }}</td>
-                                    <td>{{ item.stock_level }}</td>
+                                    <td>{{ item.item.name }}</td>
+                                    <td>{{ item.quantity }}</td>
                                     <td><button type="button" class="btn btn-warning">Reorder</button></td>
                                 </tr>
                             {% endfor %}
-                        </tbody>                                             
+                        </tbody>
                     </table>
                 </div>
             </main>

@@ -14,6 +14,7 @@ import xhtml2pdf.pisa as pisa
 from django.core.mail import EmailMessage
 import json
 
+
 @login_required
 def poshome(request):
     inventory_items = Inventory.objects.select_related('item').values(
@@ -89,16 +90,6 @@ def salesreport(request):
     return render(request, 'pos/salesreport.html', context)
 
 @login_required
-def render_to_pdf(template_src, context_dict={}):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-    pisa_status = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
-    if pisa_status.err:
-        return None
-    return result.getvalue()
-
-@login_required
 @permission_required('sales.view_sale', raise_exception=True)
 def salesreportpdf(request):
     start_date = request.GET.get('start_date')
@@ -171,3 +162,13 @@ def emailsalesreport(request):
         email.send()
         return HttpResponse('Email sent successfully')
     return HttpResponse('Error generating PDF')
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pisa_status = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
+    if pisa_status.err:
+        return None
+    return result.getvalue()
+
