@@ -13,15 +13,19 @@ from io import BytesIO
 import xhtml2pdf.pisa as pisa
 from django.core.mail import EmailMessage
 import json
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 @login_required
 def poshome(request):
     inventory_items = Inventory.objects.select_related('item').values(
-        'id', 'item__name', 'item__price', 'quantity', 'item__image'
+        'id', 'item__name', 'item__price', 'quantity', 'item__image', 'item_id'
     )
     items = list(inventory_items)
     return JsonResponse({'inventory_items': items})
+
 
 @login_required
 @csrf_exempt
@@ -30,6 +34,7 @@ def completesale(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            logger.debug(f"Received data: {data}")
             cart_items = data.get('cartItems', [])
             sale = Sale.objects.create(
                 total_amount=data.get('totalAmount'),
@@ -38,20 +43,41 @@ def completesale(request):
                 customer_contact=data.get('customerContact', '')
             )
             for item in cart_items:
-                product = get_object_or_404(Item, pk=item['id'])
+                item_id = item['id']
+                logger.debug(f"Processing cart item with ID: {item_id}")
+
+                # Verify if the item exists in the Item table
+                try:
+                    product = get_object_or_404(Item, pk=item_id)
+                    logger.debug(f"Found product: {product.name}")
+                except Exception as e:
+                    logger.error(f"No Item matches the given query for ID: {item_id}")
+                    return JsonResponse({'message': f'No Item matches the given query for ID: {item_id}'}, status=400)
+
                 SaleItem.objects.create(
                     sale=sale,
                     item=product,
                     quantity=item['quantity'],
                     price=item['price']
                 )
-                inventory_item = get_object_or_404(Inventory, item=product)
+
+                # Find the Inventory record based on the foreign key item_id
+                try:
+                    inventory_item = get_object_or_404(Inventory, item_id=product.id)
+                    logger.debug(f"Found inventory item with quantity: {inventory_item.quantity} (Item ID: {inventory_item.item_id})")
+                except Exception as e:
+                    logger.error(f"No Inventory matches the given query for item ID: {product.id}")
+                    return JsonResponse({'message': f'No Inventory matches the given query for item ID: {product.id}'}, status=400)
+
                 inventory_item.quantity -= item['quantity']
                 inventory_item.save()
+                
             return JsonResponse({'message': 'Sale completed successfully'})
         except json.JSONDecodeError:
+            logger.error("Invalid JSON")
             return JsonResponse({'message': 'Invalid JSON'}, status=400)
         except Exception as e:
+            logger.error(f"Error completing sale: {e}")
             return JsonResponse({'message': str(e)}, status=400)
     return JsonResponse({'message': 'Invalid request'}, status=400)
 

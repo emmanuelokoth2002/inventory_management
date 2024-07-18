@@ -19,7 +19,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#">Settings</a>
-                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                <a class="dropdown-item" href=""{% url 'logout' %}"">Logout</a>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             let cart = [];
             let totalAmount = 0;
-
+        
             function loadProducts() {
                 fetch('{% url "poshome" %}')
                     .then(response => response.json())
@@ -98,20 +98,20 @@
                                 <div class="card-body">
                                     <h3 class="card-title">${item.item__name}</h3>
                                     <p class="card-text">$${item.item__price}</p>
-                                    <p class="card-text">In Stock: <span class="stock-quantity" data-id="${item.id}">${item.quantity}</span></p>
-                                    <button class="btn btn-primary add-to-cart" data-id="${item.id}" data-quantity="${item.quantity}" data-name="${item.item__name}" data-price="${item.item__price}">Add to Cart</button>
+                                    <p class="card-text">In Stock: <span class="stock-quantity" data-id="${item.item_id}">${item.quantity}</span></p>
+                                    <button class="btn btn-primary add-to-cart" data-id="${item.item_id}" data-quantity="${item.quantity}" data-name="${item.item__name}" data-price="${item.item__price}">Add to Cart</button>
                                 </div>
                             `;
                             productCatalog.appendChild(productCard);
                         });
-
+        
                         document.querySelectorAll('.add-to-cart').forEach(button => {
                             button.addEventListener('click', function () {
                                 const itemId = this.getAttribute('data-id');
                                 const itemName = this.getAttribute('data-name');
                                 const itemPrice = parseFloat(this.getAttribute('data-price'));
                                 const itemQuantity = parseInt(this.getAttribute('data-quantity'));
-
+        
                                 const cartItem = cart.find(item => item.id === itemId);
                                 if (cartItem) {
                                     if (cartItem.quantity < itemQuantity) {
@@ -122,23 +122,23 @@
                                     }
                                 } else {
                                     if (itemQuantity > 0) {
-                                        cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1 });
+                                        cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1, item_id: itemId });
                                         document.querySelector(`.stock-quantity[data-id="${itemId}"]`).textContent -= 1;
                                     } else {
                                         alert('Out of stock');
                                     }
                                 }
-
+        
                                 updateCart();
                             });
                         });
                     });
             }
-
+        
             function updateCart() {
                 const cartSummary = document.getElementById('cartSummary');
                 cartSummary.innerHTML = '';
-
+        
                 totalAmount = 0;
                 cart.forEach(item => {
                     const listItem = document.createElement('li');
@@ -147,30 +147,35 @@
                     const span = document.createElement('span');
                     span.textContent = `$${(item.price * item.quantity).toFixed(2)}`;
                     listItem.appendChild(span);
-
+        
                     cartSummary.appendChild(listItem);
-
+        
                     totalAmount += item.price * item.quantity;
                 });
-
+        
                 document.getElementById('totalPrice').textContent = totalAmount.toFixed(2);
             }
-
+        
             function completeSale() {
                 const customerName = document.getElementById('customerName').value;
                 const customerContact = document.getElementById('customerContact').value;
                 const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-
+        
                 const saleData = {
                     customerName: customerName,
                     customerContact: customerContact,
                     paymentMethod: paymentMethod,
                     totalAmount: totalAmount.toFixed(2),
-                    cartItems: cart
+                    cartItems: cart.map(item => ({
+                        id: item.id,
+                        quantity: item.quantity,
+                        price: item.price,
+                        item_id: item.item_id
+                    }))
                 };
-
+        
                 console.log('Sending sale data:', saleData);
-
+        
                 fetch('{% url "completesale" %}', {
                     method: 'POST',
                     headers: {
@@ -203,14 +208,14 @@
                     alert('Error completing sale: ' + error.message);
                 });
             }
-
-            document.getElementById('completeSale').addEventListener('click', completeSale);
-
+        
+            document.getElementById('completeSale').addEventListener('click', completeSale);;
+        
             document.getElementById('themeToggle').addEventListener('click', function() {
                 document.body.classList.toggle('dark-theme');
                 this.textContent = document.body.classList.contains('dark-theme') ? 'Light Theme' : 'Dark Theme';
             });
-
+        
             document.getElementById('exportButton').addEventListener('click', function() {
                 let csvContent = "data:text/csv;charset=utf-8,";
                 cart.forEach(item => {
@@ -224,7 +229,7 @@
                 link.click();
                 document.body.removeChild(link);
             });
-
+        
             document.getElementById('shareButton').addEventListener('click', function() {
                 if (navigator.share) {
                     navigator.share({
@@ -238,8 +243,8 @@
                     alert('Web Share API not supported in this browser.');
                 }
             });
-
+        
             loadProducts();
-        });
+        });        
     </script>
 {% endblock %}
