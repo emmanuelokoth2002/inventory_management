@@ -1,0 +1,52 @@
+<!-- custom_messages/templates/custom_messages/500.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>500 Internal Server Error</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
+        .alert {
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        
+        .alert-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin: 10px 20px;
+            color: #a94442;
+            text-decoration: none;
+        }
+        .back-arrow i {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+        .back-arrow span {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-arrow" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">500 Internal Server Error</h4>
+        <p>Something went wrong on our end.</p>
+        <hr>
+        <p class="mb-0">Please try again later or contact your administrator.</p>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

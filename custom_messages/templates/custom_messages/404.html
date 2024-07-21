@@ -1,0 +1,52 @@
+<!-- custom_messages/templates/custom_messages/404.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Not Found</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
+        .alert {
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        
+        .alert-info {
+            color: #31708f;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin: 10px 20px;
+            color: #31708f;
+            text-decoration: none;
+        }
+        .back-arrow i {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+        .back-arrow span {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-arrow" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </div>
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">404 Not Found</h4>
+        <p>The page you are looking for could not be found.</p>
+        <hr>
+        <p class="mb-0">Please check the URL or go back to the homepage.</p>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

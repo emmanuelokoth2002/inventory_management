@@ -10,6 +10,8 @@ urlpatterns = [
     path('products/',include('products.urls')),
     path('inventory/',include('inventory.urls')),
     path('pos/',include('pos.urls')),
+    path('api/', include('products.urls_api')),
+    path('custom_messages/', include('custom_messages.urls')),
 ]
 
 

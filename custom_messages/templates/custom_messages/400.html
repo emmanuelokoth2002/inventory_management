@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>400 Bad Request</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
+        .alert {
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        
+        .alert-warning {
+            color: #8a6d3b;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin: 10px 20px;
+            color: #8a6d3b;
+            text-decoration: none;
+        }
+        .back-arrow i {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+        .back-arrow span {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-arrow" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </div>
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">400 Bad Request</h4>
+        <p>Your browser sent a request that this server could not understand.</p>
+        <hr>
+        <p class="mb-0">Please check the URL or contact your administrator.</p>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
