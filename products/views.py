@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import Item, Category
-from .forms import ItemForm
+from .forms import ItemForm, CategoryForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -62,3 +62,15 @@ def deleteproduct(request, pk):
         product.delete()
         return redirect(reverse('product'))
     return render(request, 'products/deleteproduct.html', {'product': product})
+
+@login_required
+@permission_required('your_app.add_category', raise_exception=True)
+def addcategory(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('addproduct'))
+    else:
+        form = CategoryForm()
+    return render(request, 'products/categoryform.html', {'form': form})

@@ -75,7 +75,7 @@
     </style>
 
     <div class="container form-container">
-        <div class="back-arrow" onclick="window.location.href='{% url 'product' %}'">
+        <div class="back-arrow" onclick="window.history.back();">
             <i class="fas fa-arrow-left"></i>
         </div>
         <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Product</h2>
@@ -94,6 +94,7 @@
                     <div class="form-group">
                         <label for="id_category">Category:</label>
                         {{ form.category|as_crispy_field }}
+                        <a href="{% url 'addcategory' %}" class="btn btn-link">Add Category</a>
                     </div>
                     <div class="form-group">
                         <label for="id_price">Price:</label>
