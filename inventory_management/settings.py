@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'rest_framework',
-    'custom_messages',
+    'custom_messages','corsheaders',
 ]
 
 SITE_ID = 1
@@ -83,8 +83,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'custom_messages.middleware.Custom403Middleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True 
 
 ROOT_URLCONF = 'inventory_management.urls'
 
