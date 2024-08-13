@@ -15,10 +15,9 @@ import logging
 from django.db import transaction
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak
 from reportlab.lib.units import inch
-from reportlab.lib.styles import getSampleStyleSheet
 
 logger = logging.getLogger(__name__)
 
@@ -173,7 +172,12 @@ def salesreportpdf(request):
     ]))
     elements.append(summary_table)
 
-    elements.append(Paragraph("Best Selling Items", styles['Heading2']))
+    # Centered Paragraph Style
+    centered_style = ParagraphStyle(name="Centered", alignment=1, fontSize=14, spaceAfter=10)
+
+    # Best Selling Items Header
+    elements.append(Paragraph("Best Selling Items", centered_style))
+
     best_selling_data = [["Item Name", "Quantity Sold"]]
     best_selling_data.extend([[item['item__name'], item['total_quantity']] for item in best_selling_items])
 
@@ -190,7 +194,9 @@ def salesreportpdf(request):
     ]))
     elements.append(best_selling_table)
 
-    elements.append(Paragraph("Inventory Report", styles['Heading2']))
+    # Inventory Report Header
+    elements.append(Paragraph("Inventory Report", centered_style))
+
     inventory_items = Inventory.objects.select_related('item', 'warehouse').values(
         'item__name', 'warehouse__name', 'quantity', 'reorder_level'
     )
