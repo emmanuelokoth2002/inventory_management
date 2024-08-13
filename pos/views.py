@@ -1,4 +1,3 @@
-import html
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -8,15 +7,18 @@ from .models import Sale, SaleItem
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum
 from django.utils.dateparse import parse_date
-from django.template.loader import get_template
 from django.conf import settings
-from io import BytesIO
-import xhtml2pdf.pisa as pisa
 from django.core.mail import EmailMessage
+from io import BytesIO
 import json
 import logging
 from django.db import transaction
-
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak
+from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet
 
 logger = logging.getLogger(__name__)
 
@@ -122,6 +124,8 @@ def salesreport(request):
 
     return render(request, 'pos/salesreport.html', context)
 
+from reportlab.lib.pagesizes import A4, portrait
+
 @login_required
 @permission_required('sales.view_sale', raise_exception=True)
 def salesreportpdf(request):
@@ -141,20 +145,83 @@ def salesreportpdf(request):
     total_items_sold = SaleItem.objects.filter(sale__in=sales).aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
     best_selling_items = SaleItem.objects.filter(sale__in=sales).values('item__name').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
 
-    context = {
-        'total_sales': total_sales,
-        'total_items_sold': total_items_sold,
-        'best_selling_items': best_selling_items,
-        'start_date': start_date,
-        'end_date': end_date
-    }
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=portrait(A4), rightMargin=0.3 * inch, leftMargin=0.3 * inch, topMargin=0.3 * inch, bottomMargin=0.3 * inch)
 
-    pdf = render_to_pdf('pos/salesreportpdf.html', context)
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="sales_report.pdf"'
-        return response
-    return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    elements = []
+    styles = getSampleStyleSheet()
+
+    # Title
+    title = Paragraph("Sales Report", styles['Title'])
+    elements.append(title)
+
+    # Sales Summary
+    summary_data = [
+        ['Total Sales', f"${total_sales}"],
+        ['Total Items Sold', f"{total_items_sold}"]
+    ]
+
+    summary_table = Table(summary_data, colWidths=[2.5 * inch, 2 * inch])
+    summary_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#f2f2f2")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 4),  # Reduce padding
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),  # Reduce font size
+    ]))
+    elements.append(summary_table)
+
+    elements.append(Paragraph("Best Selling Items", styles['Heading2']))
+    best_selling_data = [["Item Name", "Quantity Sold"]]
+    best_selling_data.extend([[item['item__name'], item['total_quantity']] for item in best_selling_items])
+
+    best_selling_table = Table(best_selling_data, colWidths=[2.5 * inch, 2 * inch])
+    best_selling_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#e0e0e0")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 4),  # Reduce padding
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),  # Reduce font size
+        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor("#f2f2f2")),
+    ]))
+    elements.append(best_selling_table)
+
+    elements.append(Paragraph("Inventory Report", styles['Heading2']))
+    inventory_items = Inventory.objects.select_related('item', 'warehouse').values(
+        'item__name', 'warehouse__name', 'quantity', 'reorder_level'
+    )
+
+    inventory_data = [["Item Name", "Warehouse", "Stock Quantity", "Reorder Level"]]
+    for item in inventory_items:
+        inventory_data.append([
+            item['item__name'],
+            item['warehouse__name'],
+            item['quantity'],
+            item['reorder_level']
+        ])
+
+    inventory_table = Table(inventory_data, colWidths=[2 * inch, 2 * inch, 1 * inch, 1 * inch])
+    inventory_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#d9d9d9")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 4),  # Reduce padding
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),  # Reduce font size
+        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor("#f7f7f7")),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+    elements.append(inventory_table)
+
+    doc.build(elements)
+    buffer.seek(0)
+    return HttpResponse(buffer, content_type='application/pdf')
+
 
 @login_required
 @permission_required('sales.view_sale', raise_exception=True)
@@ -162,28 +229,7 @@ def emailsalesreport(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
 
-    sales = Sale.objects.all()
-    if start_date and end_date:
-        try:
-            start_date = parse_date(start_date)
-            end_date = parse_date(end_date)
-            sales = sales.filter(created_at__date__gte=start_date, created_at__date__lte=end_date)
-        except ValueError:
-            pass
-
-    total_sales = sales.aggregate(total_amount=Sum('total_amount'))['total_amount'] or 0
-    total_items_sold = SaleItem.objects.filter(sale__in=sales).aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
-    best_selling_items = SaleItem.objects.filter(sale__in=sales).values('item__name').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
-
-    context = {
-        'total_sales': total_sales,
-        'total_items_sold': total_items_sold,
-        'best_selling_items': best_selling_items,
-        'start_date': start_date,
-        'end_date': end_date
-    }
-
-    pdf = render_to_pdf('pos/salesreportpdf.html', context)
+    pdf = salesreportpdf(request).getvalue()
     if pdf:
         email = EmailMessage(
             'Sales Report',
@@ -195,13 +241,4 @@ def emailsalesreport(request):
         email.send()
         return HttpResponse('Email sent successfully')
     return HttpResponse('Error generating PDF')
-
-def render_to_pdf(template_src, context_dict={}):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-    pisa_status = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
-    if pisa_status.err:
-        return None
-    return result.getvalue()
 
