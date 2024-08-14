@@ -13,6 +13,7 @@ from io import BytesIO
 import json
 import logging
 from django.db import transaction
+from datetime import datetime
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -49,36 +50,89 @@ def completesale(request):
                 )
 
                 for item in cart_items:
-                    item_id = item['id']
-                    logger.debug(f"Processing cart item with ID: {item_id}")
+                    item_id = item.get('id')
+                    item_name = item.get('name')
+                    item_quantity = item.get('quantity')
+                    item_price = item.get('price')
+                    
+                    # Logging for debugging
+                    logger.debug(f"Processing cart item: ID: {item_id}, Name: {item_name}, Quantity: {item_quantity}, Price: {item_price}")
 
-                    # Verify if the item exists in the Item table
-                    try:
-                        product = get_object_or_404(Item, pk=item_id)
-                        logger.debug(f"Found product: {product.name}")
-                    except Exception as e:
-                        logger.error(f"No Item matches the given query for ID: {item_id}")
-                        return JsonResponse({'message': f'No Item matches the given query for ID: {item_id}'}, status=400)
-
+                    product = get_object_or_404(Item, pk=item_id)
                     SaleItem.objects.create(
                         sale=sale,
                         item=product,
-                        quantity=item['quantity'],
-                        price=item['price']
+                        quantity=item_quantity,
+                        price=item_price
                     )
 
-                    # Find the Inventory record based on the foreign key item_id
-                    try:
-                        inventory_item = get_object_or_404(Inventory, item_id=product.id)
-                        logger.debug(f"Found inventory item with quantity: {inventory_item.quantity} (Item ID: {inventory_item.item_id})")
-                    except Exception as e:
-                        logger.error(f"No Inventory matches the given query for item ID: {product.id}")
-                        return JsonResponse({'message': f'No Inventory matches the given query for item ID: {product.id}'}, status=400)
-
-                    inventory_item.quantity -= item['quantity']
+                    inventory_item = get_object_or_404(Inventory, item_id=product.id)
+                    inventory_item.quantity -= item_quantity
                     inventory_item.save()
 
-            return JsonResponse({'message': 'Sale completed successfully'})
+            # Generate the receipt PDF
+            buffer = BytesIO()
+            doc = SimpleDocTemplate(buffer, pagesize=letter)
+            elements = []
+
+            styles = getSampleStyleSheet()
+            title_style = ParagraphStyle(name='TitleStyle', fontSize=14, alignment=1, spaceAfter=12)
+            normal_style = ParagraphStyle(name='NormalStyle', fontSize=10, alignment=0)
+
+            today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            # Title
+            title = Paragraph("Receipt", title_style)
+            elements.append(title)
+
+            # Customer Info
+            customer_info = [
+                ['Customer Name', data.get('customerName', '')],
+                ['Contact', data.get('customerContact', '')],
+                ['Date', today],
+                ['Payment Method', data.get('paymentMethod', '')]
+            ]
+            customer_table = Table(customer_info)
+            elements.append(customer_table)
+
+            elements.append(Paragraph("<br/>", normal_style))  # Spacer
+
+            # Item Table
+            item_data = [["Item", "Quantity", "Price", "Total"]]
+            for item in cart_items:
+                item_data.append([
+                    item.get('name'),
+                    item.get('quantity'),
+                    f"${item.get('price')}",
+                    f"${float(item.get('price')) * item.get('quantity'):.2f}"
+                ])
+            item_table = Table(item_data, colWidths=[3 * inch, 1 * inch, 1 * inch, 1 * inch])
+            item_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+                ('ALIGN', (1, 0), (-1, -1), 'CENTER')
+            ]))
+            elements.append(item_table)
+
+            # Total
+            total_data = [
+                ['Total Amount', f"${data.get('totalAmount', '0.00')}"]
+            ]
+            total_table = Table(total_data, colWidths=[5 * inch, 2 * inch])
+            total_table.setStyle(TableStyle([
+                ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
+            ]))
+            elements.append(total_table)
+
+            doc.build(elements)
+            pdf = buffer.getvalue()
+            buffer.close()
+
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="receipt_{sale.id}.pdf"'
+            response.write(pdf)
+            return response
 
         except json.JSONDecodeError:
             logger.error("Invalid JSON")
@@ -88,6 +142,8 @@ def completesale(request):
             return JsonResponse({'message': str(e)}, status=400)
 
     return JsonResponse({'message': 'Invalid request'}, status=400)
+
+
 
 @login_required
 @permission_required('inventory.view_inventory', raise_exception=True)

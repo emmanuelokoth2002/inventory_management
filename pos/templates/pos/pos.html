@@ -205,18 +205,21 @@
                             throw new Error(err.message);
                         });
                     }
-                    return response.json();
+                    return response.blob();  // Expect the PDF as a blob
                 })
-                .then(data => {
-                    console.log('Response data:', data);
-                    if (data.message === 'Sale completed successfully') {
-                        alert('Sale completed successfully');
-                        cart = [];
-                        updateCart();
-                        loadProducts();
-                    } else {
-                        alert('Error completing sale: ' + data.message);
-                    }
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'receipt.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();  // Cleanup
+
+                    alert('Sale completed successfully');
+                    cart = [];
+                    updateCart();
+                    loadProducts();
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -261,6 +264,5 @@
         
             loadProducts();
         });
-            
     </script>
 {% endblock %}
