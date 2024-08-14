@@ -17,7 +17,7 @@ from datetime import datetime
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak, Image, Spacer
 from reportlab.lib.units import inch
 
 logger = logging.getLogger(__name__)
@@ -51,23 +51,16 @@ def completesale(request):
 
                 for item in cart_items:
                     item_id = item.get('id')
-                    item_name = item.get('name')
-                    item_quantity = item.get('quantity')
-                    item_price = item.get('price')
-                    
-                    # Logging for debugging
-                    logger.debug(f"Processing cart item: ID: {item_id}, Name: {item_name}, Quantity: {item_quantity}, Price: {item_price}")
-
                     product = get_object_or_404(Item, pk=item_id)
                     SaleItem.objects.create(
                         sale=sale,
                         item=product,
-                        quantity=item_quantity,
-                        price=item_price
+                        quantity=item.get('quantity'),
+                        price=item.get('price')
                     )
 
                     inventory_item = get_object_or_404(Inventory, item_id=product.id)
-                    inventory_item.quantity -= item_quantity
+                    inventory_item.quantity -= item.get('quantity')
                     inventory_item.save()
 
             # Generate the receipt PDF
@@ -75,56 +68,111 @@ def completesale(request):
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
 
+            # Styles
             styles = getSampleStyleSheet()
-            title_style = ParagraphStyle(name='TitleStyle', fontSize=14, alignment=1, spaceAfter=12)
+            title_style = ParagraphStyle(name='TitleStyle', fontSize=18, alignment=1, spaceAfter=12, fontName="Helvetica-Bold")
             normal_style = ParagraphStyle(name='NormalStyle', fontSize=10, alignment=0)
+            header_style = ParagraphStyle(name='HeaderStyle', fontSize=12, alignment=1, spaceAfter=6, fontName="Helvetica-Bold")
+            bold_style = ParagraphStyle(name='BoldStyle', fontSize=10, fontName="Helvetica-Bold")
+            note_style = ParagraphStyle(name='NoteStyle', fontSize=10, fontName="Helvetica")
 
-            today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            # Add Logo
+            # Ensure you have a logo image and specify the correct path
+            logo = Image("product_images\logo.jpg", 2*inch, 2*inch)
+            elements.append(logo)
 
             # Title
-            title = Paragraph("Receipt", title_style)
+            title = Paragraph("RECEIPT", title_style)
             elements.append(title)
+            
+            # Receipt Date
+            today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            date_paragraph = Paragraph(f"Receipt Date: {today}", normal_style)
+            elements.append(date_paragraph)
+            
+            elements.append(Spacer(1, 12))
 
-            # Customer Info
-            customer_info = [
-                ['Customer Name', data.get('customerName', '')],
-                ['Contact', data.get('customerContact', '')],
-                ['Date', today],
-                ['Payment Method', data.get('paymentMethod', '')]
+            # Company Info
+            company_info = [
+                ["Your Company Name"],
+                ["123 Street Address, City, State Zip/Post Code"],
+                ["Phone Number | Email Address"]
             ]
-            customer_table = Table(customer_info)
-            elements.append(customer_table)
+            company_table = Table(company_info)
+            company_table.setStyle(TableStyle([
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ]))
+            elements.append(company_table)
 
-            elements.append(Paragraph("<br/>", normal_style))  # Spacer
+            elements.append(Spacer(1, 12))
 
-            # Item Table
-            item_data = [["Item", "Quantity", "Price", "Total"]]
+            # Bill To / Ship To Information
+            billing_info = [
+                ['BILL TO', 'SHIP TO'],
+                [data.get('customerName', 'N/A'), data.get('customerName', 'N/A')],
+                [data.get('customerContact', 'N/A'), data.get('customerContact', 'N/A')]
+            ]
+            billing_table = Table(billing_info, colWidths=[3*inch, 3*inch])
+            billing_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+                ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+            ]))
+            elements.append(billing_table)
+
+            elements.append(Spacer(1, 12))
+
+            # Itemized Table
+            item_data = [["DESCRIPTION", "QTY", "UNIT PRICE", "TOTAL"]]
             for item in cart_items:
                 item_data.append([
-                    item.get('name'),
-                    item.get('quantity'),
-                    f"${item.get('price')}",
-                    f"${float(item.get('price')) * item.get('quantity'):.2f}"
+                    item.get('name', 'N/A'),
+                    item.get('quantity', 1),
+                    f"Ksh{item.get('price', 0):.2f}",
+                    f"Ksh{float(item.get('price')) * item.get('quantity'):.2f}"
                 ])
             item_table = Table(item_data, colWidths=[3 * inch, 1 * inch, 1 * inch, 1 * inch])
             item_table.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
                 ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
-                ('ALIGN', (1, 0), (-1, -1), 'CENTER')
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
             ]))
             elements.append(item_table)
 
-            # Total
-            total_data = [
-                ['Total Amount', f"${data.get('totalAmount', '0.00')}"]
-            ]
-            total_table = Table(total_data, colWidths=[5 * inch, 2 * inch])
-            total_table.setStyle(TableStyle([
-                ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
-            ]))
-            elements.append(total_table)
+            elements.append(Spacer(1, 12))
 
+            # Subtotals, Taxes, and Final Amount
+            totals_data = [
+                ['SUBTOTAL', f"Ksh{data.get('totalAmount', '0.00')}"],
+                ['DISCOUNT', "Ksh0.00"],
+                ['TAX RATE', "0.00%"],
+                ['TOTAL TAX', "Ksh0.00"],
+                ['SHIPPING/HANDLING', "Ksh0.00"],
+                ['TOTAL', f"Ksh{data.get('totalAmount', '0.00')}"]
+            ]
+            totals_table = Table(totals_data, colWidths=[4 * inch, 2 * inch])
+            totals_table.setStyle(TableStyle([
+                ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ]))
+            elements.append(totals_table)
+
+            elements.append(Spacer(1, 24))
+
+            # Remarks
+            remarks = Paragraph("Produced by System Administrator...", note_style)
+            elements.append(remarks)
+
+            # Build PDF
             doc.build(elements)
             pdf = buffer.getvalue()
             buffer.close()
