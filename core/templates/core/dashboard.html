@@ -1,5 +1,4 @@
 {% extends 'main.html' %}
-{% load tz %}
 {% block content %}
     <div class="container-fluid" id="mainpage">
         <div class="row">
@@ -73,7 +72,7 @@
                         <tbody>
                             {% for sale in recent_transactions %}
                                 <tr>
-                                    <td>{{ sale.created_at|localtime }}</td>
+                                    <td>{{ sale.created_at }}</td>
                                     <td>
                                         {% for item in sale.items.all %}
                                             {{ item.item.name }}{% if not forloop.last %}, {% endif %}
