@@ -46,7 +46,7 @@
                             <!-- Cart items will be dynamically inserted here -->
                         </div>
                         <div class="mt-4">
-                            <h5>Total: $<span id="totalPrice">0.00</span></h5>
+                            <h5>Total: Ksh<span id="totalPrice">0.00</span></h5>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="paymentMethod" id="cardPayment" value="card">
                             <label class="form-check-label" for="cardPayment">
-                                Card
+                                Mpesa
                             </label>
                         </div>
                         <button class="btn btn-success btn-block mt-3" id="completeSale">Complete Sale</button>
@@ -97,7 +97,7 @@
                                 <img src="/media/${item.item__image}" class="card-img-top" alt="${item.item__name}" style="width: 100px; height: 100px;">
                                 <div class="card-body">
                                     <h3 class="card-title">${item.item__name}</h3>
-                                    <p class="card-text">$${item.item__price}</p>
+                                    <p class="card-text">Ksh${item.item__price}</p>
                                     <p class="card-text">In Stock: <span class="stock-quantity" data-id="${item.item_id}">${item.quantity}</span></p>
                                     <button class="btn btn-primary add-to-cart" data-id="${item.item_id}" data-quantity="${item.quantity}" data-name="${item.item__name}" data-price="${item.item__price}">Add to Cart</button>
                                 </div>

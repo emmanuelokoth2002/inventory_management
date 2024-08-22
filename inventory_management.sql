@@ -219,10 +219,10 @@ CREATE TABLE `auth_user` (
 /*Data for the table `auth_user` */
 
 insert  into `auth_user`(`id`,`password`,`last_login`,`is_superuser`,`username`,`first_name`,`last_name`,`email`,`is_staff`,`is_active`,`date_joined`) values 
-(1,'pbkdf2_sha256$720000$KXngRwVILh71f9aJ1PrehH$LRG1KGqalN3RaU34bdF2SUPBsU0Bj0lqyRKvQE2C/Ls=','2024-08-17 21:36:53.372892',1,'emmanuel','','','emmanuelokoth2002@gmail.com',1,1,'2024-06-11 12:52:04.118215'),
+(1,'pbkdf2_sha256$720000$KXngRwVILh71f9aJ1PrehH$LRG1KGqalN3RaU34bdF2SUPBsU0Bj0lqyRKvQE2C/Ls=','2024-08-20 20:23:49.248820',1,'emmanuel','','','emmanuelokoth2002@gmail.com',1,1,'2024-06-11 12:52:04.118215'),
 (2,'pbkdf2_sha256$720000$WM7NJVpsGxnBbZVHyFcTqo$oEYbf5NycZ6wqhq0GF04ilitmfSfEkRcCZQLLRzIxXQ=','2024-08-13 20:24:32.300578',0,'okoth','','','emmanuelokoth2002@gmail.com',0,1,'2024-07-14 19:28:09.166922'),
 (3,'pbkdf2_sha256$720000$77LapvpHVRzGibiKaZVPe1$d/IXY/JY6+ScEskkK4kaA7wUU7YONaV0+gny5r9As4g=','2024-07-21 19:46:49.086667',0,'peter','','','peter@gmail.com',0,1,'2024-07-14 21:00:28.363355'),
-(4,'pbkdf2_sha256$720000$W8rXWCvl05dLrIk84pRySZ$XRztJfYtFvEd0PaDInND5dQ1fYZCd+Op+yJ0ZaKPZA4=','2024-08-13 20:07:09.482713',1,'admin','','','',1,1,'2024-08-09 11:59:55.238648'),
+(4,'pbkdf2_sha256$720000$W8rXWCvl05dLrIk84pRySZ$XRztJfYtFvEd0PaDInND5dQ1fYZCd+Op+yJ0ZaKPZA4=','2024-08-22 14:48:13.966790',1,'admin','','','',1,1,'2024-08-09 11:59:55.238648'),
 (5,'pbkdf2_sha256$720000$PuUedLQUzfZmoeXj4l1tAQ$WuFSFE4ur571TqfbVl/gDzf0uN/+E8dHZ3OpYF2YTgA=','2024-08-13 20:15:44.312986',0,'edward','','','edwardakelo4@gmail.com',0,1,'2024-08-13 20:12:33.134385'),
 (6,'pbkdf2_sha256$720000$HZpXIESyUOhQVVcsrm2tiE$ZYxP0HqBKho/gERgUBgtAASzKYLTFcIOlLaHyRnsdhs=','2024-08-13 20:17:26.676252',0,'otieno','','','emmanuelotieno2002@gmail.com',0,1,'2024-08-13 20:17:12.769770');
 
@@ -443,16 +443,16 @@ CREATE TABLE `django_session` (
 
 insert  into `django_session`(`session_key`,`session_data`,`expire_date`) values 
 ('0u0mq5ygy2gwu88vzxw3f9w9y7ga7htl','.eJxVjDsOwjAQBe_iGllx_Kekzxks27uLA8iR4qRC3J1YSgHtzLz3ZiHuWwl7wzXMwK5MsMsvSzE_sXYBj1jvC89L3dY58Z7w0zY-LYCv29n-HZTYyrHGqJEyAWGUzpLTflRe6UQIPsnBJxjJSOMGDU7ajsWh0QpyyqBO7PMFGF84vw:1sH1fo:Jd1vfRADIhO1QVCj0DU5zzyJb-EOhepSWlk9f89M80Q','2024-06-25 13:36:28.449229'),
-('1zzx5qyf8imv1q5lu7oezoauo5k6j1wq','.eJxVjDsOwjAQBe_iGllx_Kekzxks27uLA8iR4qRC3J1YSgHtzLz3ZiHuWwl7wzXMwK5MsMsvSzE_sXYBj1jvC89L3dY58Z7w0zY-LYCv29n-HZTYyrHGqJEyAWGUzpLTflRe6UQIPsnBJxjJSOMGDU7ajsWh0QpyyqBO7PMFGF84vw:1sfR6T:UK7cOBp__GdCD4K7y-kXlVxbq99HZ4xL5xgORR4DVmA','2024-08-31 21:36:53.845912'),
+('1zzx5qyf8imv1q5lu7oezoauo5k6j1wq','.eJxVjDsOwjAQBe_iGllx_Kekzxks27uLA8iR4qRC3J1YSgHtzLz3ZiHuWwl7wzXMwK5MsMsvSzE_sXYBj1jvC89L3dY58Z7w0zY-LYCv29n-HZTYyrHGqJEyAWGUzpLTflRe6UQIPsnBJxjJSOMGDU7ajsWh0QpyyqBO7PMFGF84vw:1sgVOP:nq2Rv1ocQs6_XOjm_NEIWHY8p_KSA3keE_WJUD3_XwE','2024-09-03 20:23:49.583832'),
 ('9krt3bu2xelu8ze6392rj33l1ob6cy8q','e30:1sT4tQ:Ewj-BLZcrykLEACtt0ygVDlGAellbGuvIyS5W1TWHxE','2024-07-28 19:28:20.675887'),
 ('e9eklfk338ryw9sga32odsmu3mylofuq','.eJxVjDsOwjAQBe_iGllx_Kekzxks27uLA8iR4qRC3J1YSgHtzLz3ZiHuWwl7wzXMwK5MsMsvSzE_sXYBj1jvC89L3dY58Z7w0zY-LYCv29n-HZTYyrHGqJEyAWGUzpLTflRe6UQIPsnBJxjJSOMGDU7ajsWh0QpyyqBO7PMFGF84vw:1sXenl:_SFC1tasX7LimstKuy5PJ8CoaIbCl386JMHqprRwUe0','2024-08-10 10:37:25.544783'),
-('i0vwu2d6nf316pqnkqqbnw3ihsgbzvdh','.eJxVjLsOwjAMAP8lM4pcNy8Y2fmGyqkdUkCJ1LQT4t9RpA6w3p3urSbatzztTdZpYXVRRp1-WaT5KaULflC5Vz3Xsq1L1D3Rh236Vlle16P9G2RquW8JMI2WDDPPYBHBC1o3sMGRBn8GQYMxivMmQEiQAoDlNAi45LxL6vMFy_c3MA:1scjI2:KdMbBeRpePgiwg4IfAhAQKOGuplg9VG4S1WNrYPlzL4','2024-08-24 10:25:38.248221'),
 ('i7xe5jwdzwd36d7v96ltlw7wxvu5k6ov','.eJxVjMEOwiAQRP-FsyFAuwt49O43kIWlUjU0Ke3J-O9K0oPeJvPezEsE2rcS9pbXMLM4CxSn3y5SeuTaAd-p3haZlrqtc5RdkQdt8rpwfl4O9--gUCt9PTJMzkcGz8YyqgiTYc8KBkgpof4m8kPWCjCCBrSjcxrYkjaoHIv3B-n1N04:1sSy6t:5-ugghZpumB2rmsTPt9qUN48A6SfCFgNaBOafEDaLac','2024-07-28 12:13:47.200270'),
 ('oriwfactcfsfpp6amzuwd55tmnu98bwf','.eJxVjDsOwjAQBe_iGllx_Kekzxks27uLA8iR4qRC3J1YSgHtzLz3ZiHuWwl7wzXMwK5MsMsvSzE_sXYBj1jvC89L3dY58Z7w0zY-LYCv29n-HZTYyrHGqJEyAWGUzpLTflRe6UQIPsnBJxjJSOMGDU7ajsWh0QpyyqBO7PMFGF84vw:1sWb22:AZdLihbGqzcIln9qBjKyOiOJu9Oc1CaOJWUQYZiZdsM','2024-08-07 12:23:46.766460'),
 ('rgzc0gqndujfi2evupfp24xgyrc0346t','.eJxVjDsOwjAQBe_iGllx_Kekzxks27uLA8iR4qRC3J1YSgHtzLz3ZiHuWwl7wzXMwK5MsMsvSzE_sXYBj1jvC89L3dY58Z7w0zY-LYCv29n-HZTYyrHGqJEyAWGUzpLTflRe6UQIPsnBJxjJSOMGDU7ajsWh0QpyyqBO7PMFGF84vw:1sMQ3w:MPfoY2k4A4XcKWLELuhZ2xH8CQJdNh9Q2JXxccOk7A0','2024-07-10 10:39:40.776452'),
-('s9wlv10acwsvk5w26pqyl95i165yce28','.eJxVjLsOwjAMAP8lM4pcNy8Y2fmGyqkdUkCJ1LQT4t9RpA6w3p3urSbatzztTdZpYXVRRp1-WaT5KaULflC5Vz3Xsq1L1D3Rh236Vlle16P9G2RquW8JMI2WDDPPYBHBC1o3sMGRBn8GQYMxivMmQEiQAoDlNAi45LxL6vMFy_c3MA:1scOeh:5BGcU0NQggtzXcgh6P-hxyX9LkMLX9qWD_GsbPLm4iM','2024-08-23 12:23:39.439363'),
+('s9wlv10acwsvk5w26pqyl95i165yce28','.eJxVjLsOwjAMAP8lM4pcNy8Y2fmGyqkdUkCJ1LQT4t9RpA6w3p3urSbatzztTdZpYXVRRp1-WaT5KaULflC5Vz3Xsq1L1D3Rh236Vlle16P9G2RquW8JMI2WDDPPYBHBC1o3sMGRBn8GQYMxivMmQEiQAoDlNAi45LxL6vMFy_c3MA:1sh96k:UMRXaMCoKKleUvjjJK1RpXemg9XoMrN4rxBJBKBdvIA','2024-09-05 14:48:14.075807'),
 ('sdn3lsaqkdbl4oddc948nwjhdfhyymq6','.eJxVjLsOwjAMAP8lM4pcNy8Y2fmGyqkdUkCJ1LQT4t9RpA6w3p3urSbatzztTdZpYXVRRp1-WaT5KaULflC5Vz3Xsq1L1D3Rh236Vlle16P9G2RquW8JMI2WDDPPYBHBC1o3sMGRBn8GQYMxivMmQEiQAoDlNAi45LxL6vMFy_c3MA:1scOef:Oz0rL79gCEvjglfJAiRLDzMGvExYC8hvPdMiT2bUEWI','2024-08-23 12:23:37.509365'),
 ('vprf4cxysrm0yjbyppt0enm7vq7xi00f','e30:1sT4vY:yQeJ_7LYHtBs2LdMofx-qSr2yhL6cjGob4Qr9cLUxGU','2024-07-28 19:30:32.466709'),
+('wsy4qhml9s90xnyjmpbfikqy2k40mwcl','.eJxVjLsOwjAMAP8lM4pcNy8Y2fmGyqkdUkCJ1LQT4t9RpA6w3p3urSbatzztTdZpYXVRRp1-WaT5KaULflC5Vz3Xsq1L1D3Rh236Vlle16P9G2RquW8JMI2WDDPPYBHBC1o3sMGRBn8GQYMxivMmQEiQAoDlNAi45LxL6vMFy_c3MA:1sgWTg:Kk1SLsqWAdCrdJ-XNAUi8pfyO0c5Gxu6qXGSIRPNLSA','2024-09-03 21:33:20.805727'),
 ('wzpgceuvd77xto54wucdvx0rrscnmcwz','.eJxVjDsOwjAQBe_iGllx_Kekzxks27uLA8iR4qRC3J1YSgHtzLz3ZiHuWwl7wzXMwK5MsMsvSzE_sXYBj1jvC89L3dY58Z7w0zY-LYCv29n-HZTYyrHGqJEyAWGUzpLTflRe6UQIPsnBJxjJSOMGDU7ajsWh0QpyyqBO7PMFGF84vw:1sH107:aS385F-pElZRAwuXE0UmdTD-NBCbuvmCvmkIwqOJsTc','2024-06-25 12:53:23.093476');
 
 /*Table structure for table `django_site` */
@@ -489,16 +489,18 @@ CREATE TABLE `inventory_inventory` (
   KEY `inventory_inventory_warehouse_id_fadd9d8c_fk_inventory` (`warehouse_id`),
   CONSTRAINT `inventory_inventory_item_id_c77b66a4_fk_products_item_id` FOREIGN KEY (`item_id`) REFERENCES `products_item` (`id`),
   CONSTRAINT `inventory_inventory_warehouse_id_fadd9d8c_fk_inventory` FOREIGN KEY (`warehouse_id`) REFERENCES `inventory_warehouse` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `inventory_inventory` */
 
 insert  into `inventory_inventory`(`id`,`created_at`,`updated_at`,`quantity`,`reorder_level`,`item_id`,`warehouse_id`) values 
-(2,'2024-06-11 17:21:04.335203','2024-08-17 21:44:31.531630',45,20,2,2),
-(5,'2024-07-05 06:54:32.017031','2024-08-14 08:25:04.546547',0,10,10,4),
-(6,'2024-07-17 21:06:27.175951','2024-08-17 21:44:31.546635',80,10,11,4),
-(7,'2024-07-17 21:09:37.457268','2024-08-14 09:08:29.961057',30,5,12,4),
-(8,'2024-07-22 11:14:26.038020','2024-08-14 08:25:04.650553',0,5,13,4);
+(9,'2024-08-22 15:11:13.060384','2024-08-22 15:39:33.801781',18,5,14,5),
+(10,'2024-08-22 15:13:10.181382','2024-08-22 15:39:34.145773',18,5,15,5),
+(11,'2024-08-22 15:15:10.972390','2024-08-22 15:39:34.157777',18,5,16,5),
+(12,'2024-08-22 15:16:45.092388','2024-08-22 15:39:34.205789',18,5,17,5),
+(13,'2024-08-22 15:18:29.754778','2024-08-22 15:39:34.192775',18,5,18,5),
+(14,'2024-08-22 15:20:18.300788','2024-08-22 15:39:34.169771',18,5,19,5),
+(15,'2024-08-22 15:21:47.322788','2024-08-22 15:39:34.180776',18,5,20,5);
 
 /*Table structure for table `inventory_warehouse` */
 
@@ -511,15 +513,12 @@ CREATE TABLE `inventory_warehouse` (
   `name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `inventory_warehouse` */
 
 insert  into `inventory_warehouse`(`id`,`created_at`,`updated_at`,`name`,`location`) values 
-(1,'2024-06-11 13:03:52.678890','2024-06-11 13:03:52.678890','Main Warehouse','Nairobi'),
-(2,'2024-06-11 17:06:25.559734','2024-06-11 17:06:25.559734','Mains Warehouse','123 Warehouse Ave'),
-(3,'2024-06-11 17:06:25.731737','2024-06-11 17:06:25.731737','Secondary Warehouse','456 Warehouse Blvd'),
-(4,'2024-07-04 19:36:56.655085','2024-07-04 19:36:56.655085','Default Warehouse','Default Location');
+(5,'2024-08-22 15:11:13.017391','2024-08-22 15:11:13.017391','Default Warehouse','Default Location');
 
 /*Table structure for table `orders_order` */
 
@@ -539,12 +538,6 @@ CREATE TABLE `orders_order` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `orders_order` */
-
-insert  into `orders_order`(`id`,`created_at`,`updated_at`,`order_date`,`total_amount`,`status`,`customer_id`) values 
-(1,'2024-06-11 17:05:32.832917','2024-06-11 17:05:32.832917','2024-06-11 17:05:32.832917',1150.00,'Pending',2),
-(2,'2024-06-11 17:05:33.093882','2024-06-11 17:05:33.094885','2024-06-11 17:05:33.094885',150.00,'Completed',3),
-(3,'2024-06-11 17:22:02.537744','2024-06-11 17:22:02.537744','2024-06-11 17:22:02.537744',2000.00,'Completed',1),
-(4,'2024-06-11 17:22:26.004964','2024-06-11 17:22:26.004964','2024-06-11 17:22:26.004964',1050.00,'Pending',2);
 
 /*Table structure for table `orders_orderitem` */
 
@@ -568,9 +561,6 @@ CREATE TABLE `orders_orderitem` (
 
 /*Data for the table `orders_orderitem` */
 
-insert  into `orders_orderitem`(`id`,`created_at`,`updated_at`,`quantity`,`price`,`total`,`item_id`,`order_id`) values 
-(2,'2024-06-11 17:24:21.025941','2024-06-11 17:24:21.025941',10,10000.00,100000.00,2,2);
-
 /*Table structure for table `pos_sale` */
 
 DROP TABLE IF EXISTS `pos_sale`;
@@ -584,118 +574,13 @@ CREATE TABLE `pos_sale` (
   `customer_name` varchar(255) DEFAULT NULL,
   `payment_method` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `pos_sale` */
 
 insert  into `pos_sale`(`id`,`created_at`,`updated_at`,`total_amount`,`customer_contact`,`customer_name`,`payment_method`) values 
-(1,'2024-06-29 14:06:22.368761','2024-06-29 14:06:22.368761',0.00,NULL,NULL,'cash'),
-(2,'2024-06-29 14:10:45.495493','2024-06-29 14:10:45.495493',0.00,NULL,NULL,'cash'),
-(3,'2024-06-29 14:12:26.210675','2024-06-29 14:12:26.211672',0.00,NULL,NULL,'cash'),
-(4,'2024-06-29 14:14:36.299387','2024-06-29 14:14:36.299387',0.00,NULL,NULL,'cash'),
-(5,'2024-06-29 14:15:46.464319','2024-06-29 14:15:46.464319',0.00,NULL,NULL,'cash'),
-(6,'2024-06-29 14:16:18.380245','2024-06-29 14:18:08.187771',6000.00,NULL,NULL,'cash'),
-(7,'2024-06-29 14:26:20.318956','2024-06-29 14:26:33.300808',600.00,NULL,NULL,'cash'),
-(8,'2024-06-30 02:32:22.291723','2024-06-30 02:32:22.291723',120000.00,'','','cash'),
-(9,'2024-07-06 10:10:20.304102','2024-07-06 10:10:20.304982',12000.00,'','','cash'),
-(10,'2024-07-06 10:10:24.152816','2024-07-06 10:10:24.152816',12000.00,'','','cash'),
-(11,'2024-07-06 10:10:24.338806','2024-07-06 10:10:24.338806',12000.00,'','','cash'),
-(12,'2024-07-06 10:10:32.558689','2024-07-06 10:10:32.558689',12000.00,'','','cash'),
-(13,'2024-07-06 10:11:19.512245','2024-07-06 10:11:19.512245',22000.00,'','','cash'),
-(14,'2024-07-09 02:11:44.530593','2024-07-09 02:11:44.530593',14000.00,'','','cash'),
-(15,'2024-07-09 02:11:47.446196','2024-07-09 02:11:47.446196',14000.00,'','','cash'),
-(16,'2024-07-13 19:38:27.945564','2024-07-13 19:38:27.945564',10000.00,'','','cash'),
-(17,'2024-07-13 19:50:13.597814','2024-07-13 19:50:13.597814',10000.00,'','','card'),
-(18,'2024-07-13 19:50:57.984669','2024-07-13 19:50:57.984669',2000.00,'','','cash'),
-(19,'2024-07-13 19:51:19.826914','2024-07-13 19:51:19.826914',12000.00,'','','cash'),
-(20,'2024-07-13 19:51:33.739459','2024-07-13 19:51:33.739459',10000.00,'','','cash'),
-(21,'2024-07-13 19:56:13.446942','2024-07-13 19:56:13.446942',2000.00,'','','cash'),
-(22,'2024-07-13 19:59:36.711900','2024-07-13 19:59:36.711900',10000.00,'','','cash'),
-(23,'2024-07-13 20:00:18.983586','2024-07-13 20:00:18.983586',2000.00,'','','cash'),
-(24,'2024-07-13 20:10:15.796456','2024-07-13 20:10:15.797455',2000.00,'','','cash'),
-(25,'2024-07-13 20:16:28.180373','2024-07-13 20:16:28.181373',10000.00,'','','cash'),
-(26,'2024-07-13 20:16:33.649928','2024-07-13 20:16:33.649928',2000.00,'','','cash'),
-(27,'2024-07-14 21:29:26.994385','2024-07-14 21:29:26.994385',10000.00,'','','cash'),
-(28,'2024-07-17 20:53:54.538139','2024-07-17 20:53:54.538139',2000.00,'','','cash'),
-(29,'2024-07-17 20:59:58.121433','2024-07-17 20:59:58.121433',2000.00,'','','cash'),
-(30,'2024-07-17 21:00:23.918185','2024-07-17 21:00:23.918185',2000.00,'','','cash'),
-(31,'2024-07-17 21:02:48.287120','2024-07-17 21:02:48.287120',10000.00,'','','cash'),
-(32,'2024-07-17 21:03:35.994219','2024-07-17 21:03:35.994219',1500.00,'','','cash'),
-(33,'2024-07-17 21:04:04.316706','2024-07-17 21:04:04.316706',10000.00,'','','cash'),
-(34,'2024-07-17 21:08:04.391723','2024-07-17 21:08:04.391723',500.00,'','','cash'),
-(35,'2024-07-17 21:10:08.799216','2024-07-17 21:10:08.799216',2000.00,'','','cash'),
-(36,'2024-07-17 21:16:03.221508','2024-07-17 21:16:03.221508',2000.00,'','','cash'),
-(37,'2024-07-17 21:17:09.975793','2024-07-17 21:17:09.975793',3500.00,'','','cash'),
-(38,'2024-07-17 21:17:26.417438','2024-07-17 21:17:26.417438',1500.00,'','','cash'),
-(39,'2024-07-17 21:17:38.579263','2024-07-17 21:17:38.579263',1500.00,'','','cash'),
-(40,'2024-07-17 21:17:45.325029','2024-07-17 21:17:45.326037',11500.00,'','','cash'),
-(41,'2024-07-17 21:17:49.533071','2024-07-17 21:17:49.533071',10000.00,'','','cash'),
-(42,'2024-07-17 21:17:55.524682','2024-07-17 21:17:55.524682',1500.00,'','','cash'),
-(43,'2024-07-17 21:18:08.153362','2024-07-17 21:18:08.153362',500.00,'','','cash'),
-(44,'2024-07-17 21:22:02.634756','2024-07-17 21:22:02.634756',500.00,'0114567533','emmanuel','card'),
-(45,'2024-07-18 09:50:56.414081','2024-07-18 09:50:56.414081',1500.00,'','','cash'),
-(46,'2024-07-18 09:54:58.555321','2024-07-18 09:54:58.556329',1500.00,'','','cash'),
-(47,'2024-07-18 09:55:22.702509','2024-07-18 09:55:22.702509',2000.00,'','','cash'),
-(48,'2024-07-18 10:03:47.089968','2024-07-18 10:03:47.089968',1500.00,'','','cash'),
-(49,'2024-07-18 11:58:55.969534','2024-07-18 11:58:55.969534',2000.00,'','','cash'),
-(50,'2024-07-18 12:00:12.679532','2024-07-18 12:00:12.679532',2000.00,'','','cash'),
-(51,'2024-07-18 12:09:58.295037','2024-07-18 12:09:58.295037',1500.00,'','','cash'),
-(52,'2024-07-18 12:20:50.377844','2024-07-18 12:20:50.378839',500.00,'','','cash'),
-(53,'2024-07-18 12:29:04.779532','2024-07-18 12:29:04.779532',1500.00,'','','cash'),
-(54,'2024-07-18 12:34:52.026308','2024-07-18 12:34:52.026308',1500.00,'','','cash'),
-(55,'2024-07-18 12:34:58.749299','2024-07-18 12:34:58.749299',2000.00,'','','cash'),
-(56,'2024-07-18 12:36:46.301385','2024-07-18 12:36:46.301385',1500.00,'','','cash'),
-(57,'2024-07-18 12:37:02.422382','2024-07-18 12:37:02.422382',2000.00,'','','cash'),
-(58,'2024-07-18 12:40:44.630479','2024-07-18 12:40:44.630479',2000.00,'','','cash'),
-(59,'2024-07-18 12:43:26.581791','2024-07-18 12:43:26.582790',2000.00,'','','cash'),
-(60,'2024-07-18 12:54:06.687097','2024-07-18 12:54:06.687097',1500.00,'','','card'),
-(61,'2024-07-18 13:05:33.398119','2024-07-18 13:05:33.398119',500.00,'','','cash'),
-(62,'2024-07-18 13:56:43.662464','2024-07-18 13:56:43.662464',2000.00,'','','cash'),
-(63,'2024-07-18 14:00:09.958173','2024-07-18 14:00:09.958173',500.00,'','','cash'),
-(64,'2024-07-18 14:00:36.395345','2024-07-18 14:00:36.396332',500.00,'','','cash'),
-(65,'2024-07-18 14:02:55.134217','2024-07-18 14:02:55.134217',500.00,'','','cash'),
-(66,'2024-07-18 14:04:09.806980','2024-07-18 14:04:09.807987',500.00,'','','cash'),
-(67,'2024-07-18 14:07:05.445286','2024-07-18 14:07:05.445286',500.00,'','','cash'),
-(68,'2024-07-18 14:08:03.257325','2024-07-18 14:08:03.257325',10000.00,'','','cash'),
-(69,'2024-07-18 18:37:37.724625','2024-07-18 18:37:37.724625',2000.00,'','','cash'),
-(70,'2024-07-18 18:42:19.932693','2024-07-18 18:42:19.932693',2000.00,'','','cash'),
-(71,'2024-07-18 18:47:28.631789','2024-07-18 18:47:28.631789',500.00,'','','cash'),
-(72,'2024-07-18 18:47:36.854779','2024-07-18 18:47:36.854779',500.00,'','','cash'),
-(73,'2024-07-18 18:50:52.052109','2024-07-18 18:50:52.052109',500.00,'','','cash'),
-(74,'2024-07-18 18:50:56.775027','2024-07-18 18:50:56.775027',500.00,'','','cash'),
-(75,'2024-07-18 18:53:14.454856','2024-07-18 18:53:14.454856',500.00,'','','cash'),
-(76,'2024-07-18 18:53:19.862495','2024-07-18 18:53:19.862495',500.00,'','','cash'),
-(77,'2024-07-18 19:01:48.232480','2024-07-18 19:01:48.232480',500.00,'','','cash'),
-(78,'2024-07-18 19:07:47.020889','2024-07-18 19:07:47.020889',2000.00,'','','cash'),
-(79,'2024-07-18 19:20:55.712016','2024-07-18 19:20:55.713031',2000.00,'','','cash'),
-(80,'2024-07-18 19:46:16.039053','2024-07-18 19:46:16.039053',2000.00,'','','cash'),
-(81,'2024-07-18 19:58:17.719549','2024-07-18 19:58:17.719549',2500.00,'','','cash'),
-(82,'2024-07-18 20:10:34.825534','2024-07-18 20:10:34.825534',500.00,'','','cash'),
-(83,'2024-07-18 20:10:41.907858','2024-07-18 20:10:41.907858',2000.00,'','','cash'),
-(84,'2024-07-18 20:10:52.337000','2024-07-18 20:10:52.337000',2000.00,'','','cash'),
-(85,'2024-07-18 20:22:39.603974','2024-07-18 20:22:39.603974',4000.00,'','','cash'),
-(86,'2024-07-18 20:22:50.830935','2024-07-18 20:22:50.830935',10000.00,'','','cash'),
-(87,'2024-07-18 20:31:19.225894','2024-07-18 20:31:19.225894',500.00,'','','cash'),
-(88,'2024-07-18 20:31:27.759712','2024-07-18 20:31:27.759712',13000.00,'','','cash'),
-(89,'2024-08-14 07:07:52.012050','2024-08-14 07:07:52.012050',21500.00,'','','cash'),
-(90,'2024-08-14 07:09:14.921891','2024-08-14 07:09:14.921891',21500.00,'','','cash'),
-(91,'2024-08-14 07:11:56.539744','2024-08-14 07:11:56.539744',11500.00,'','','cash'),
-(92,'2024-08-14 07:17:11.887713','2024-08-14 07:17:11.888707',2000.00,'','','cash'),
-(93,'2024-08-14 08:22:14.634549','2024-08-14 08:22:14.634549',20000.00,'','','cash'),
-(94,'2024-08-14 08:23:46.343658','2024-08-14 08:23:46.344666',20000.00,'','','cash'),
-(95,'2024-08-14 08:25:03.275559','2024-08-14 08:25:03.275559',103000.00,'','','cash'),
-(96,'2024-08-14 08:39:01.739090','2024-08-14 08:39:01.739090',12000.00,'','','cash'),
-(97,'2024-08-14 08:41:32.386952','2024-08-14 08:41:32.386952',12000.00,'','','cash'),
-(98,'2024-08-14 08:42:55.126948','2024-08-14 08:42:55.126948',10000.00,'','','cash'),
-(99,'2024-08-14 08:44:25.867067','2024-08-14 08:44:25.867067',10000.00,'','','cash'),
-(100,'2024-08-14 08:45:49.340071','2024-08-14 08:45:49.340071',10000.00,'','','cash'),
-(101,'2024-08-14 08:52:06.526358','2024-08-14 08:52:06.526358',10000.00,'','','cash'),
-(102,'2024-08-14 08:53:59.843768','2024-08-14 08:53:59.843768',500.00,'','','card'),
-(103,'2024-08-14 09:04:31.365680','2024-08-14 09:04:31.366687',10000.00,'','','cash'),
-(104,'2024-08-14 09:06:16.942500','2024-08-14 09:06:16.942500',10000.00,'','','cash'),
-(105,'2024-08-14 09:07:02.537517','2024-08-14 09:07:02.537517',0.00,'','','cash'),
-(106,'2024-08-14 09:08:29.898058','2024-08-14 09:08:29.898058',30500.00,'','','cash'),
-(107,'2024-08-17 21:44:31.446628','2024-08-17 21:44:31.446628',20500.00,'','','card');
+(109,'2024-08-22 15:33:31.725784','2024-08-22 15:33:31.725784',27400.00,'','','card'),
+(110,'2024-08-22 15:39:33.777787','2024-08-22 15:39:33.777787',27400.00,'','','card');
 
 /*Table structure for table `pos_saleitem` */
 
@@ -714,70 +599,25 @@ CREATE TABLE `pos_saleitem` (
   KEY `pos_saleitem_sale_id_9e4cc3b5_fk_pos_sale_id` (`sale_id`),
   CONSTRAINT `pos_saleitem_item_id_f2cd0ef8_fk_products_item_id` FOREIGN KEY (`item_id`) REFERENCES `products_item` (`id`),
   CONSTRAINT `pos_saleitem_sale_id_9e4cc3b5_fk_pos_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `pos_sale` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `pos_saleitem` */
 
 insert  into `pos_saleitem`(`id`,`created_at`,`updated_at`,`quantity`,`price`,`item_id`,`sale_id`) values 
-(1,'2024-06-29 14:17:48.778147','2024-06-29 14:17:48.778147',2,2000.00,2,6),
-(4,'2024-06-30 02:32:22.389729','2024-06-30 02:32:22.389729',12,10000.00,2,8),
-(5,'2024-07-06 10:10:20.373627','2024-07-06 10:10:20.374620',1,10000.00,2,9),
-(6,'2024-07-06 10:10:24.359821','2024-07-06 10:10:24.359821',1,10000.00,2,10),
-(7,'2024-07-06 10:10:24.451251','2024-07-06 10:10:24.451251',1,10000.00,2,11),
-(8,'2024-07-06 10:10:32.629695','2024-07-06 10:10:32.629695',1,10000.00,2,12),
-(9,'2024-07-06 10:11:19.685714','2024-07-06 10:11:19.685714',1,10000.00,2,13),
-(10,'2024-07-09 02:11:44.691374','2024-07-09 02:11:44.691374',1,10000.00,2,14),
-(11,'2024-07-09 02:11:47.638211','2024-07-09 02:11:47.638211',1,10000.00,2,15),
-(12,'2024-07-13 19:38:28.032573','2024-07-13 19:38:28.032573',1,10000.00,2,16),
-(13,'2024-07-13 19:51:33.819467','2024-07-13 19:51:33.819467',1,10000.00,2,20),
-(14,'2024-07-13 19:59:36.884907','2024-07-13 19:59:36.885902',1,10000.00,2,22),
-(15,'2024-07-13 20:16:28.326845','2024-07-13 20:16:28.326845',1,10000.00,2,25),
-(16,'2024-07-14 21:29:27.150370','2024-07-14 21:29:27.151379',1,10000.00,2,27),
-(17,'2024-07-17 21:02:48.378109','2024-07-17 21:02:48.378109',1,10000.00,2,31),
-(19,'2024-07-17 21:17:49.603623','2024-07-17 21:17:49.603623',1,10000.00,2,41),
-(20,'2024-07-18 14:08:03.439323','2024-07-18 14:08:03.439323',1,10000.00,2,68),
-(21,'2024-07-18 20:10:34.884524','2024-07-18 20:10:34.884524',1,500.00,11,82),
-(22,'2024-07-18 20:10:42.070869','2024-07-18 20:10:42.070869',1,2000.00,12,83),
-(23,'2024-07-18 20:10:52.406532','2024-07-18 20:10:52.406532',1,1500.00,10,84),
-(24,'2024-07-18 20:10:52.518895','2024-07-18 20:10:52.518895',1,500.00,11,84),
-(25,'2024-07-18 20:22:39.645333','2024-07-18 20:22:39.645333',1,1500.00,10,85),
-(26,'2024-07-18 20:22:39.658323','2024-07-18 20:22:39.658323',1,500.00,11,85),
-(27,'2024-07-18 20:22:39.776667','2024-07-18 20:22:39.776667',1,2000.00,12,85),
-(28,'2024-07-18 20:22:50.850982','2024-07-18 20:22:50.850982',1,10000.00,2,86),
-(29,'2024-07-18 20:31:19.265894','2024-07-18 20:31:19.265894',1,500.00,11,87),
-(30,'2024-07-18 20:31:27.783704','2024-07-18 20:31:27.783704',6,2000.00,12,88),
-(31,'2024-07-18 20:31:27.880710','2024-07-18 20:31:27.880710',2,500.00,11,88),
-(32,'2024-08-14 07:07:52.192029','2024-08-14 07:07:52.192029',2,10000.00,2,89),
-(33,'2024-08-14 07:07:52.578046','2024-08-14 07:07:52.578046',1,1500.00,10,89),
-(34,'2024-08-14 07:09:14.948902','2024-08-14 07:09:14.948902',2,10000.00,2,90),
-(35,'2024-08-14 07:09:14.964898','2024-08-14 07:09:14.964898',1,1500.00,10,90),
-(36,'2024-08-14 07:11:56.581739','2024-08-14 07:11:56.581739',1,10000.00,2,91),
-(37,'2024-08-14 07:11:56.633748','2024-08-14 07:11:56.633748',1,1500.00,10,91),
-(38,'2024-08-14 07:17:11.977711','2024-08-14 07:17:11.977711',1,500.00,11,92),
-(39,'2024-08-14 07:17:11.993723','2024-08-14 07:17:11.994705',1,1500.00,10,92),
-(40,'2024-08-14 08:22:14.929552','2024-08-14 08:22:14.929552',2,10000.00,2,93),
-(41,'2024-08-14 08:23:46.462649','2024-08-14 08:23:46.462649',2,10000.00,2,94),
-(42,'2024-08-14 08:25:03.398549','2024-08-14 08:25:03.398549',7,10000.00,2,95),
-(43,'2024-08-14 08:25:04.540557','2024-08-14 08:25:04.540557',2,1500.00,10,95),
-(44,'2024-08-14 08:25:04.553548','2024-08-14 08:25:04.553548',6,500.00,11,95),
-(45,'2024-08-14 08:25:04.566555','2024-08-14 08:25:04.566555',6,2000.00,12,95),
-(46,'2024-08-14 08:25:04.644546','2024-08-14 08:25:04.645554',10,1500.00,13,95),
-(47,'2024-08-14 08:39:01.857082','2024-08-14 08:39:01.858085',1,2000.00,12,96),
-(48,'2024-08-14 08:39:02.364079','2024-08-14 08:39:02.365083',1,10000.00,2,96),
-(49,'2024-08-14 08:41:32.451947','2024-08-14 08:41:32.451947',1,2000.00,12,97),
-(50,'2024-08-14 08:41:32.469950','2024-08-14 08:41:32.469950',1,10000.00,2,97),
-(51,'2024-08-14 08:42:55.170952','2024-08-14 08:42:55.170952',1,10000.00,2,98),
-(52,'2024-08-14 08:44:25.893073','2024-08-14 08:44:25.893073',1,10000.00,2,99),
-(53,'2024-08-14 08:45:49.474061','2024-08-14 08:45:49.474061',1,10000.00,2,100),
-(54,'2024-08-14 08:52:06.640355','2024-08-14 08:52:06.640355',1,10000.00,2,101),
-(55,'2024-08-14 08:53:59.916760','2024-08-14 08:53:59.917762',1,500.00,11,102),
-(56,'2024-08-14 09:04:31.461687','2024-08-14 09:04:31.461687',1,10000.00,2,103),
-(57,'2024-08-14 09:06:16.999500','2024-08-14 09:06:16.999500',1,10000.00,2,104),
-(58,'2024-08-14 09:08:29.938054','2024-08-14 09:08:29.938054',5,500.00,11,106),
-(59,'2024-08-14 09:08:29.955055','2024-08-14 09:08:29.955055',4,2000.00,12,106),
-(60,'2024-08-14 09:08:29.971056','2024-08-14 09:08:29.971056',2,10000.00,2,106),
-(61,'2024-08-17 21:44:31.508634','2024-08-17 21:44:31.508634',2,10000.00,2,107),
-(62,'2024-08-17 21:44:31.540640','2024-08-17 21:44:31.540640',1,500.00,11,107);
+(64,'2024-08-22 15:33:31.779781','2024-08-22 15:33:31.779781',1,3000.00,14,109),
+(65,'2024-08-22 15:33:31.810778','2024-08-22 15:33:31.810778',1,3000.00,15,109),
+(66,'2024-08-22 15:33:31.912779','2024-08-22 15:33:31.912779',1,4000.00,16,109),
+(67,'2024-08-22 15:33:31.926783','2024-08-22 15:33:31.926783',1,4500.00,19,109),
+(68,'2024-08-22 15:33:31.939779','2024-08-22 15:33:31.939779',1,3400.00,20,109),
+(69,'2024-08-22 15:33:31.951778','2024-08-22 15:33:31.951778',1,4500.00,18,109),
+(70,'2024-08-22 15:33:31.963777','2024-08-22 15:33:31.963777',1,5000.00,17,109),
+(71,'2024-08-22 15:39:33.794774','2024-08-22 15:39:33.794774',1,3000.00,14,110),
+(72,'2024-08-22 15:39:33.974770','2024-08-22 15:39:33.974770',1,3000.00,15,110),
+(73,'2024-08-22 15:39:34.151774','2024-08-22 15:39:34.151774',1,4000.00,16,110),
+(74,'2024-08-22 15:39:34.163775','2024-08-22 15:39:34.163775',1,4500.00,19,110),
+(75,'2024-08-22 15:39:34.175780','2024-08-22 15:39:34.175780',1,3400.00,20,110),
+(76,'2024-08-22 15:39:34.187781','2024-08-22 15:39:34.187781',1,4500.00,18,110),
+(77,'2024-08-22 15:39:34.199792','2024-08-22 15:39:34.199792',1,5000.00,17,110);
 
 /*Table structure for table `products_category` */
 
@@ -790,14 +630,14 @@ CREATE TABLE `products_category` (
   `name` varchar(255) NOT NULL,
   `description` longtext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `products_category` */
 
 insert  into `products_category`(`id`,`created_at`,`updated_at`,`name`,`description`) values 
-(1,'2024-06-11 17:02:06.800940','2024-06-11 17:02:06.800940','Electronics','Electronic gadgets and devices'),
-(2,'2024-06-11 17:02:07.069914','2024-06-11 17:02:07.069914','Furniture','Home and office furniture'),
-(3,'2024-07-27 10:05:03.576856','2024-07-27 10:05:03.576856','Clothes','Ethopian clothes');
+(4,'2024-08-22 15:04:02.593383','2024-08-22 15:04:02.593383','Festive Wear','A simple, possibly traditional dress with decorative details, often worn for special occasions or festive events.'),
+(5,'2024-08-22 15:05:11.176381','2024-08-22 15:05:11.176381','Family Matching Outfits','potentially designed for coordinated family outfits.'),
+(6,'2024-08-22 15:06:17.603386','2024-08-22 15:06:17.603386','Cultural or Traditional Wear','This outfits may be a traditional Ethiopian dress, often worn during cultural or religious events. The red cross and trim suggest a connection to cultural heritage.');
 
 /*Table structure for table `products_item` */
 
@@ -820,16 +660,18 @@ CREATE TABLE `products_item` (
   UNIQUE KEY `barcode` (`barcode`),
   KEY `products_item_category_id_4c94af84_fk_products_category_id` (`category_id`),
   CONSTRAINT `products_item_category_id_4c94af84_fk_products_category_id` FOREIGN KEY (`category_id`) REFERENCES `products_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `products_item` */
 
 insert  into `products_item`(`id`,`created_at`,`updated_at`,`name`,`description`,`price`,`cost`,`SKU`,`barcode`,`category_id`,`image`) values 
-(2,'2024-06-11 17:19:58.562322','2024-07-04 19:38:26.564579','Office Chair','Ergonomic office chair',10000.00,100.00,'chair123','12345678901258',2,'product_images/chair.jpeg'),
-(10,'2024-07-05 06:54:31.894028','2024-07-05 09:26:03.296034','laptop charger','Lenovo laptop charger',1500.00,1000.00,'charger012','68390209494',1,'product_images/laptop_charger_L08Ln85.jpg'),
-(11,'2024-07-17 21:06:26.962936','2024-07-17 21:06:26.962936','mouse','wireless mouse',500.00,300.00,'mouse123','785894973533',1,'product_images/mouse_WDxw3ol.png'),
-(12,'2024-07-17 21:09:37.410263','2024-07-17 21:09:37.410263','Keyboard','wireless LED keyboard',2000.00,1000.00,'keyboard123','98776654443',1,'product_images/keyboard_TGN3Sdg.jpeg'),
-(13,'2024-07-22 11:14:25.957797','2024-07-22 11:14:25.957797','chiwfne','',1500.00,1000.00,'47467383939','383993948',1,'');
+(14,'2024-08-22 15:11:12.812381','2024-08-22 15:11:12.813382','Habesha Kemis (ሐበሻ ቀሚስ)','This is a traditional Ethiopian and Eritrean dress worn by women. It is usually made from handwoven cotton and features intricate embroidery, often in bright colors like green, red, or gold. The dress is long and often features a shawl (netela) draped over the shoulders.',3000.00,2000.00,'clothe01',NULL,6,'product_images/image36.jpg'),
+(15,'2024-08-22 15:13:09.980376','2024-08-22 15:13:09.980376','Habesha Libs (ሐበሻ ልብስ)','The men\'s version of the traditional attire typically includes a shirt and pants made from similar fabric as the women\'s dress. The shirt often features embroidered patterns along the collar and chest. A shawl (gabi) is also worn over the shoulders.',3000.00,2000.00,'clothe02',NULL,6,'product_images/image28.jpg'),
+(16,'2024-08-22 15:15:10.880373','2024-08-22 15:15:10.880373','Tunic Dress','A simple, possibly traditional dress with decorative details, often worn for special occasions or festive events.',4000.00,3000.00,'clothe03',NULL,4,'product_images/image1.jpg'),
+(17,'2024-08-22 15:16:44.928387','2024-08-22 15:16:44.928387','Maxi Dresses','The yellow dresses with floral embroidery could represent traditional or cultural attire, potentially designed for coordinated family outfits.',5000.00,3000.00,'clothe04',NULL,6,'product_images/image3.jpg'),
+(18,'2024-08-22 15:18:29.674780','2024-08-22 15:18:29.674780','Habesha Kemis (ሐበሻ ቀሚስ)','This outfit may be a traditional Ethiopian dress, often worn during cultural or religious events. The red cross and trim suggest a connection to cultural heritage.',4500.00,3000.00,'clothe05',NULL,6,'product_images/image4.jpg'),
+(19,'2024-08-22 15:20:18.044784','2024-08-22 15:20:18.044784','Habesha Kemis (ሐበሻ ቀሚስ)','This outfit may be a traditional Ethiopian dress, often worn during cultural or religious events. The red cross and trim suggest a connection to cultural heritage.',4500.00,3200.00,'clothe06',NULL,6,'product_images/image6.jpg'),
+(20,'2024-08-22 15:21:47.239775','2024-08-22 15:21:47.239775','Habesha Libs (ሐበሻ ልብስ)','The men\'s version of the traditional attire typically includes a shirt and pants made from similar fabric as the women\'s dress. The shirt often features embroidered patterns along the collar and chest. A shawl (gabi) is also worn over the shoulders.',3400.00,2500.00,'clothe07',NULL,6,'product_images/image18.jpg');
 
 /*Table structure for table `socialaccount_socialaccount` */
 
@@ -924,15 +766,6 @@ CREATE TABLE `suppliers_supplier` (
 
 /*Data for the table `suppliers_supplier` */
 
-insert  into `suppliers_supplier`(`id`,`created_at`,`updated_at`,`name`,`contact_name`,`phone`,`email`,`address`) values 
-(1,'2024-06-11 13:02:29.946224','2024-06-11 13:02:29.946224','techsupplier','john','0114567533','john@gmail.coom','PO BOX 23'),
-(2,'2024-06-11 17:02:55.807665','2024-06-11 17:02:55.807665','TechSupplier','John Doe','1234567890','techsupplier@example.com','123 Tech Street'),
-(3,'2024-06-11 17:02:56.053280','2024-06-11 17:02:56.053280','FurniSupplier','Jane Doe','0987654321','furnisupplier@example.com','456 Furni Avenue'),
-(4,'2024-06-11 17:03:29.171103','2024-06-11 17:03:29.171103','TechSupplier','John Doe','1234567890','techsupplier@example.com','123 Tech Street'),
-(5,'2024-06-11 17:03:29.344061','2024-06-11 17:03:29.344061','FurniSupplier','Jane Doe','0987654321','furnisupplier@example.com','456 Furni Avenue'),
-(6,'2024-06-11 17:14:07.381138','2024-06-11 17:14:07.382142','TechSupplier','John Doe','1234567890','techsupplier@example.com','123 Tech Street'),
-(7,'2024-06-11 17:14:07.486140','2024-06-11 17:14:07.486140','FurniSupplier','Jane Doe','0987654321','furnisupplier@example.com','456 Furni Avenue');
-
 /*Table structure for table `users_user` */
 
 DROP TABLE IF EXISTS `users_user`;
@@ -960,11 +793,7 @@ CREATE TABLE `users_user` (
 /*Data for the table `users_user` */
 
 insert  into `users_user`(`id`,`password`,`last_login`,`is_superuser`,`username`,`first_name`,`last_name`,`is_staff`,`is_active`,`date_joined`,`email`,`role`,`avatar`,`bio`,`name`) values 
-(1,'admin123',NULL,0,'otieno','emmanuel','otieno',0,1,'2024-06-11 12:57:08.000000','emmanuelotieno2002@gmail.com','Admin','',NULL,NULL),
-(2,'PA$$',NULL,0,'sacco','Vitalis','Sidi',0,1,'2024-06-11 13:08:44.000000','vitalis@gmail.com','Staff','',NULL,NULL),
-(3,'pbkdf2_sha256$720000$RnPNHWysqUEJYq6JDPVhNh$Jo4ix0H6OmPoR4yCMnn9DMC0hxkXGi946fzyol+JC+I=',NULL,1,'admin','','',1,1,'2024-06-11 17:07:07.803832','admin@example.com','Admin','',NULL,NULL),
-(4,'pbkdf2_sha256$720000$iedOcvyBPOMkjo9rhIl3cb$1EjkYAbnYtoEB4bqt338chMxhPFEbSVfgmXkL71oukQ=',NULL,0,'staff1','','',0,1,'2024-06-11 17:07:10.287594','staff1@example.com','Staff','',NULL,NULL),
-(5,'pbkdf2_sha256$720000$t6OM3dugjC4OCLf0IXw0Ep$lkiq0/503gJ5OERpl2cSIM8Fkq3DCxTuWue73Qrl9sI=',NULL,0,'staff2','','',0,1,'2024-06-11 17:07:12.709588','staff2@example.com','Staff','',NULL,NULL);
+(3,'pbkdf2_sha256$720000$RnPNHWysqUEJYq6JDPVhNh$Jo4ix0H6OmPoR4yCMnn9DMC0hxkXGi946fzyol+JC+I=',NULL,1,'admin','','',1,1,'2024-06-11 17:07:07.803832','admin@example.com','Admin','',NULL,NULL);
 
 /*Table structure for table `users_user_groups` */
 
