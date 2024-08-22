@@ -8,6 +8,7 @@ from pos.models import Sale
 from inventory.models import Inventory
 from django.db.models.functions import ExtractWeekDay
 from collections import defaultdict
+from decimal import Decimal
 
 @login_required
 def dashboard_view(request):
@@ -28,9 +29,18 @@ def dashboard_view(request):
     days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     sales_data = defaultdict(lambda: 0)
     for sale in sales_by_day:
-        sales_data[days_of_week[sale['day_of_week'] - 1]] = sale['total_sales']
+        sales_data[days_of_week[sale['day_of_week'] - 1]] = float(sale['total_sales']) if isinstance(sale['total_sales'], Decimal) else sale['total_sales']
     
     sales_chart_data = [sales_data[day] for day in days_of_week]
+
+    # For the transactions chart, assuming you want to count the number of transactions per day
+    transactions_by_day = Sale.objects.annotate(day_of_week=ExtractWeekDay('created_at')).values('day_of_week').annotate(total_transactions=Sum('id')).order_by('day_of_week')
+    
+    transactions_data = defaultdict(lambda: 0)
+    for transaction in transactions_by_day:
+        transactions_data[days_of_week[transaction['day_of_week'] - 1]] = int(transaction['total_transactions']) if isinstance(transaction['total_transactions'], Decimal) else transaction['total_transactions']
+
+    transactions_chart_data = [transactions_data[day] for day in days_of_week]
 
     context = {
         'total_sales': total_sales,
@@ -39,6 +49,7 @@ def dashboard_view(request):
         'recent_transactions': recent_transactions,
         'low_stock_items': low_stock_items,
         'sales_chart_data': sales_chart_data,
+        'transactions_chart_data': transactions_chart_data,
     }
 
     return render(request, 'core/dashboard.html', context)
