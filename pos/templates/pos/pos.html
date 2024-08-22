@@ -172,62 +172,80 @@
             }
         
             function completeSale() {
-                const customerName = document.getElementById('customerName').value;
-                const customerContact = document.getElementById('customerContact').value;
-                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-        
-                const saleData = {
-                    customerName: customerName,
-                    customerContact: customerContact,
-                    paymentMethod: paymentMethod,
-                    totalAmount: totalAmount.toFixed(2),
-                    cartItems: cart.map(item => ({
-                        id: item.id,
-                        quantity: item.quantity,
-                        price: item.price,
-                        item_id: item.item_id
-                    }))
-                };
-        
-                console.log('Sending sale data:', saleData);
-        
-                fetch('{% url "completesale" %}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    body: JSON.stringify(saleData)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(err => {
-                            throw new Error(err.message);
-                        });
-                    }
-                    return response.blob();  // Expect the PDF as a blob
-                })
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'receipt.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();  // Cleanup
-
-                    alert('Sale completed successfully');
-                    cart = [];
-                    updateCart();
-                    loadProducts();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error completing sale: ' + error.message);
+                return new Promise((resolve, reject) => {
+                    const customerName = document.getElementById('customerName').value;
+                    const customerContact = document.getElementById('customerContact').value;
+                    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            
+                    const saleData = {
+                        customerName: customerName,
+                        customerContact: customerContact,
+                        paymentMethod: paymentMethod,
+                        totalAmount: totalAmount.toFixed(2),
+                        cartItems: cart.map(item => ({
+                            id: item.id,
+                            quantity: item.quantity,
+                            price: item.price,
+                            item_id: item.item_id
+                        }))
+                    };
+            
+                    console.log('Sending sale data:', saleData);
+            
+                    fetch('{% url "completesale" %}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify(saleData)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw new Error(err.message);
+                            });
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'receipt.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+            
+                        alert('Sale completed successfully');
+                        cart = [];
+                        updateCart();
+                        loadProducts();
+                        resolve();  // Resolve the Promise indicating success
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error completing sale: ' + error.message);
+                        reject(error);  // Reject the Promise indicating failure
+                    });
                 });
             }
+            
+            document.getElementById('completeSale').addEventListener('click', function() {
+                const completeSaleButton = this;
+                completeSaleButton.disabled = true; // Disable the button to prevent double submissions
+            
+                completeSale()
+                    .then(() => {
+                        completeSaleButton.disabled = false;  // Re-enable the button after successful completion
+                    })
+                    .catch((error) => {
+                        completeSaleButton.disabled = false;  // Re-enable the button if an error occurs
+                        console.error('Error:', error);
+                    });
+            });
+            
         
-            document.getElementById('completeSale').addEventListener('click', completeSale);
         
             document.getElementById('themeToggle').addEventListener('click', function() {
                 document.body.classList.toggle('dark-theme');

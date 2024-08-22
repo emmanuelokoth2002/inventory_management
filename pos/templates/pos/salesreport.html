@@ -3,7 +3,7 @@
 <div class="container-fluid" id="report">
     <div class="row mb-4">
         <div class="col-12">
-            <h2 class="mt-4">Simple Inventory Report Template</h2>
+            <h2 class="mt-4">Report</h2>
         </div>
     </div>
     
@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Total Sales</h5>
-                    <p class="card-text">${{ total_sales }}</p>
+                    <p class="card-text">Ksh{{ total_sales }}</p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="row mb-4">
+    {% comment %} <div class="row mb-4">
         <div class="col-12">
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -79,7 +79,7 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="row mb-4">
         <div class="col-md-6 mb-2">
