@@ -264,9 +264,9 @@ def completesale(request):
 
             # Company Info
             company_info = [
-                ["Your Company Name"],
-                ["123 Street Address, City, State Zip/Post Code"],
-                ["Phone Number | Email Address"]
+                ["Libya Habesha Chiffon"],
+                ["Wood Avenue, Woodland Mall,Kilimani,Nairobi"],
+                ["+254714083771 | chakaghirmay@gmail.com"]
             ]
             company_table = Table(company_info)
             company_table.setStyle(TableStyle([

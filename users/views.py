@@ -9,30 +9,27 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.user_permissions.clear()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
+            form.save()
+            messages.success(request, 'Account created successfully. You can now log in.')
             return redirect('login')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
 
-
 def user_login(request):
     if request.method == 'POST':
-        form = UserLoginForm(request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('dashboard')
-            else:
-                messages.error(request, 'Invalid username or password')
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid username or password')
     else:
         form = UserLoginForm()
+
     return render(request, 'users/login.html', {'form': form})
 
 @login_required
@@ -42,12 +39,18 @@ def assign_roles(request):
     permissions = Permission.objects.all()
 
     if request.method == 'POST':
-        user_id = request.POST['user']
+        user_id = request.POST.get('user')
         permission_ids = request.POST.getlist('permissions')
 
-        user = User.objects.get(pk=user_id)
-        user.user_permissions.set(permission_ids)
-        messages.success(request, f'Permissions updated for {user.username}')
+        try:
+            user = User.objects.get(pk=user_id)
+            user.user_permissions.set(permission_ids)
+            messages.success(request, f'Permissions updated for {user.username}')
+        except User.DoesNotExist:
+            messages.error(request, 'User not found')
+        except Exception as e:
+            messages.error(request, 'An error occurred while updating permissions')
+
         return redirect('assign_roles')
 
     context = {
@@ -58,4 +61,5 @@ def assign_roles(request):
 
 def user_logout(request):
     logout(request)
-    return redirect('dashboard')
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('login')
